@@ -44,4 +44,18 @@ public class RouteController {
         RouteResponse response = routeService.updateRoute(id, request);
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROUTE_FARE_MANAGER')")
+    public ResponseEntity<Void> deleteRoute(@PathVariable Long id) {
+        routeService.deleteRoute(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/toggle-status")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROUTE_FARE_MANAGER')")
+    public ResponseEntity<RouteResponse> toggleRouteStatus(@PathVariable Long id) {
+        RouteResponse response = routeService.toggleRouteActive(id);
+        return ResponseEntity.ok(response);
+    }
 }

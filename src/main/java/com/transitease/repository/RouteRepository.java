@@ -14,4 +14,8 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
     boolean existsByRouteNumber(String routeNumber);
 
     boolean existsByRouteNumberAndIdNot(String routeNumber, Long id);
+
+    long countByActive(Boolean active);
+
+    java.util.List<Route> findByActive(Boolean active);
 }

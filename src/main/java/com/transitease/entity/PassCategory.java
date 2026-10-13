@@ -22,6 +22,24 @@ public class PassCategory {
     @Column(nullable = false)
     private Double baseFare;
 
+    @Column(length = 50)
+    private String categoryGroup; // GENERAL, STUDENT, SENIOR_CITIZEN, CONCESSIONARY
+
+    @Column(length = 1000)
+    private String eligibility;
+
+    @Column(length = 1000)
+    private String mandatoryDocuments;
+
+    @Column(length = 1000)
+    private String optionalDocuments;
+
+    @Column(length = 50)
+    private String fareType; // FIXED, CONFIRMATION_REQUIRED, CONFIGURABLE, CONCESSIONAL
+
+    @Column(length = 1000)
+    private String discountDetails;
+
     public PassCategory() {
     }
 
@@ -31,6 +49,22 @@ public class PassCategory {
         this.description = description;
         this.validityDays = validityDays;
         this.baseFare = baseFare;
+    }
+
+    public PassCategory(Long id, String name, String description, Integer validityDays, Double baseFare,
+                        String categoryGroup, String eligibility, String mandatoryDocuments,
+                        String optionalDocuments, String fareType, String discountDetails) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.validityDays = validityDays;
+        this.baseFare = baseFare;
+        this.categoryGroup = categoryGroup;
+        this.eligibility = eligibility;
+        this.mandatoryDocuments = mandatoryDocuments;
+        this.optionalDocuments = optionalDocuments;
+        this.fareType = fareType;
+        this.discountDetails = discountDetails;
     }
 
     public Long getId() {
@@ -71,5 +105,53 @@ public class PassCategory {
 
     public void setBaseFare(Double baseFare) {
         this.baseFare = baseFare;
+    }
+
+    public String getCategoryGroup() {
+        return categoryGroup;
+    }
+
+    public void setCategoryGroup(String categoryGroup) {
+        this.categoryGroup = categoryGroup;
+    }
+
+    public String getEligibility() {
+        return eligibility;
+    }
+
+    public void setEligibility(String eligibility) {
+        this.eligibility = eligibility;
+    }
+
+    public String getMandatoryDocuments() {
+        return mandatoryDocuments;
+    }
+
+    public void setMandatoryDocuments(String mandatoryDocuments) {
+        this.mandatoryDocuments = mandatoryDocuments;
+    }
+
+    public String getOptionalDocuments() {
+        return optionalDocuments;
+    }
+
+    public void setOptionalDocuments(String optionalDocuments) {
+        this.optionalDocuments = optionalDocuments;
+    }
+
+    public String getFareType() {
+        return fareType;
+    }
+
+    public void setFareType(String fareType) {
+        this.fareType = fareType;
+    }
+
+    public String getDiscountDetails() {
+        return discountDetails;
+    }
+
+    public void setDiscountDetails(String discountDetails) {
+        this.discountDetails = discountDetails;
     }
 }

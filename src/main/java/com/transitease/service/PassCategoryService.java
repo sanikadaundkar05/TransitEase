@@ -30,7 +30,13 @@ public class PassCategoryService {
         passCategory.setName(request.getName());
         passCategory.setDescription(request.getDescription());
         passCategory.setValidityDays(request.getValidityDays());
-        passCategory.setBaseFare(request.getBaseFare());
+        passCategory.setBaseFare(request.getBaseFare() != null ? request.getBaseFare() : 0.0);
+        passCategory.setCategoryGroup(request.getCategoryGroup());
+        passCategory.setEligibility(request.getEligibility());
+        passCategory.setMandatoryDocuments(request.getMandatoryDocuments());
+        passCategory.setOptionalDocuments(request.getOptionalDocuments());
+        passCategory.setFareType(request.getFareType() != null ? request.getFareType() : "FIXED");
+        passCategory.setDiscountDetails(request.getDiscountDetails());
 
         PassCategory saved = passCategoryRepository.save(passCategory);
         return PassCategoryResponse.fromEntity(saved);
@@ -63,7 +69,27 @@ public class PassCategoryService {
         passCategory.setName(request.getName());
         passCategory.setDescription(request.getDescription());
         passCategory.setValidityDays(request.getValidityDays());
-        passCategory.setBaseFare(request.getBaseFare());
+        if (request.getBaseFare() != null) {
+            passCategory.setBaseFare(request.getBaseFare());
+        }
+        if (request.getCategoryGroup() != null) {
+            passCategory.setCategoryGroup(request.getCategoryGroup());
+        }
+        if (request.getEligibility() != null) {
+            passCategory.setEligibility(request.getEligibility());
+        }
+        if (request.getMandatoryDocuments() != null) {
+            passCategory.setMandatoryDocuments(request.getMandatoryDocuments());
+        }
+        if (request.getOptionalDocuments() != null) {
+            passCategory.setOptionalDocuments(request.getOptionalDocuments());
+        }
+        if (request.getFareType() != null) {
+            passCategory.setFareType(request.getFareType());
+        }
+        if (request.getDiscountDetails() != null) {
+            passCategory.setDiscountDetails(request.getDiscountDetails());
+        }
 
         PassCategory updated = passCategoryRepository.save(passCategory);
         return PassCategoryResponse.fromEntity(updated);

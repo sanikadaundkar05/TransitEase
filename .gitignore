@@ -45,3 +45,7 @@ application-local.properties
 # Keep generated files and IDE settings out of Git
 *.log
 
+# Uploaded documents and test uploads
+uploads/
+target/test-uploads/
+

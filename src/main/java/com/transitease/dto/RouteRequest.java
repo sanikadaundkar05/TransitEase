@@ -17,15 +17,29 @@ public class RouteRequest {
 
     private Boolean active = true;
 
+    private Double fare;
+
+    private Double distanceKm;
+
+    private String stops;
+
     public RouteRequest() {
     }
 
     public RouteRequest(String routeNumber, String source, String destination, String description, Boolean active) {
+        this(routeNumber, source, destination, description, active, null, null, null);
+    }
+
+    public RouteRequest(String routeNumber, String source, String destination, String description, Boolean active,
+                        Double fare, Double distanceKm, String stops) {
         this.routeNumber = routeNumber;
         this.source = source;
         this.destination = destination;
         this.description = description;
         this.active = (active != null) ? active : true;
+        this.fare = fare;
+        this.distanceKm = distanceKm;
+        this.stops = stops;
     }
 
     public String getRouteNumber() {
@@ -66,5 +80,29 @@ public class RouteRequest {
 
     public void setActive(Boolean active) {
         this.active = (active != null) ? active : true;
+    }
+
+    public Double getFare() {
+        return fare;
+    }
+
+    public void setFare(Double fare) {
+        this.fare = fare;
+    }
+
+    public Double getDistanceKm() {
+        return distanceKm;
+    }
+
+    public void setDistanceKm(Double distanceKm) {
+        this.distanceKm = distanceKm;
+    }
+
+    public String getStops() {
+        return stops;
+    }
+
+    public void setStops(String stops) {
+        this.stops = stops;
     }
 }

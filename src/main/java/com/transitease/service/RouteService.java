@@ -43,6 +43,9 @@ public class RouteService {
         route.setDestination(request.getDestination());
         route.setDescription(request.getDescription());
         route.setActive(request.getActive() != null ? request.getActive() : true);
+        route.setFare(request.getFare());
+        route.setDistanceKm(request.getDistanceKm());
+        route.setStops(request.getStops());
         
         Route savedRoute = routeRepository.save(route);
         return RouteResponse.fromEntity(savedRoute);
@@ -62,8 +65,27 @@ public class RouteService {
         route.setDestination(request.getDestination());
         route.setDescription(request.getDescription());
         route.setActive(request.getActive() != null ? request.getActive() : true);
+        route.setFare(request.getFare());
+        route.setDistanceKm(request.getDistanceKm());
+        route.setStops(request.getStops());
         
         Route updatedRoute = routeRepository.save(route);
         return RouteResponse.fromEntity(updatedRoute);
+    }
+
+    @Transactional
+    public void deleteRoute(Long id) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Route not found with id: " + id));
+        routeRepository.delete(route);
+    }
+
+    @Transactional
+    public RouteResponse toggleRouteActive(Long id) {
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Route not found with id: " + id));
+        route.setActive(!Boolean.TRUE.equals(route.getActive()));
+        Route updated = routeRepository.save(route);
+        return RouteResponse.fromEntity(updated);
     }
 }

@@ -25,16 +25,33 @@ public class Route {
     @Column(nullable = false)
     private Boolean active = true;
 
+    @Column
+    private Double fare;
+
+    @Column
+    private Double distanceKm;
+
+    @Column(length = 1000)
+    private String stops;
+
     public Route() {
     }
 
     public Route(Long id, String routeNumber, String source, String destination, String description, Boolean active) {
+        this(id, routeNumber, source, destination, description, active, null, null, null);
+    }
+
+    public Route(Long id, String routeNumber, String source, String destination, String description, Boolean active,
+                 Double fare, Double distanceKm, String stops) {
         this.id = id;
         this.routeNumber = routeNumber;
         this.source = source;
         this.destination = destination;
         this.description = description;
         this.active = (active != null) ? active : true;
+        this.fare = fare;
+        this.distanceKm = distanceKm;
+        this.stops = stops;
     }
 
     public Long getId() {
@@ -83,5 +100,29 @@ public class Route {
 
     public void setActive(Boolean active) {
         this.active = (active != null) ? active : true;
+    }
+
+    public Double getFare() {
+        return fare;
+    }
+
+    public void setFare(Double fare) {
+        this.fare = fare;
+    }
+
+    public Double getDistanceKm() {
+        return distanceKm;
+    }
+
+    public void setDistanceKm(Double distanceKm) {
+        this.distanceKm = distanceKm;
+    }
+
+    public String getStops() {
+        return stops;
+    }
+
+    public void setStops(String stops) {
+        this.stops = stops;
     }
 }

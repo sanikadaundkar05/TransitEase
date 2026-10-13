@@ -130,4 +130,111 @@ class UserServiceTest {
         verify(userRepository, times(1)).findByEmail("john.doe@example.com");
         verify(passwordEncoder, times(1)).matches("password123", "encodedPassword123");
     }
+
+    @Test
+    void testGetAllUsers_ReturnsUsers() {
+        User u = new User();
+        u.setId(10L);
+        u.setFullName("Staff");
+        u.setEmail("staff@example.com");
+        u.setRole(Role.DOCUMENT_VERIFICATION_OFFICER);
+
+        when(userRepository.findAll()).thenReturn(java.util.List.of(u));
+
+        java.util.List<com.transitease.dto.UserResponse> list = userService.getAllUsers(null);
+
+        assertEquals(1, list.size());
+        assertEquals(10L, list.get(0).getId());
+        assertEquals("Staff", list.get(0).getFullName());
+    }
+
+    @Test
+    void testGetUserById_Success() {
+        User u = new User();
+        u.setId(10L);
+        u.setFullName("Staff");
+        u.setEmail("staff@example.com");
+        u.setRole(Role.DOCUMENT_VERIFICATION_OFFICER);
+
+        when(userRepository.findById(10L)).thenReturn(Optional.of(u));
+
+        com.transitease.dto.UserResponse res = userService.getUserById(10L);
+
+        assertEquals(10L, res.getId());
+        assertEquals("Staff", res.getFullName());
+    }
+
+    @Test
+    void testCreateStaffUser_Success() {
+        com.transitease.dto.CreateStaffRequest req =
+                new com.transitease.dto.CreateStaffRequest("Officer", "officer@test.com", "pass123", Role.PASS_APPROVAL_OFFICER);
+
+        when(userRepository.existsByEmail("officer@test.com")).thenReturn(false);
+        when(passwordEncoder.encode("pass123")).thenReturn("enc123");
+        when(userRepository.save(any(User.class))).thenAnswer(i -> {
+            User user = i.getArgument(0);
+            user.setId(5L);
+            return user;
+        });
+
+        com.transitease.dto.UserResponse res = userService.createStaffUser(req);
+
+        assertEquals(5L, res.getId());
+        assertEquals("Officer", res.getFullName());
+        assertEquals(Role.PASS_APPROVAL_OFFICER, res.getRole());
+    }
+
+    @Test
+    void testUpdateUser_Success() {
+        User u = new User();
+        u.setId(5L);
+        u.setFullName("Old Name");
+        u.setRole(Role.PASSENGER);
+
+        when(userRepository.findById(5L)).thenReturn(Optional.of(u));
+        when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
+
+        com.transitease.dto.UpdateUserRequest req =
+                new com.transitease.dto.UpdateUserRequest("New Name", Role.ROUTE_FARE_MANAGER, null);
+
+        com.transitease.dto.UserResponse res = userService.updateUser(5L, req);
+
+        assertEquals("New Name", res.getFullName());
+        assertEquals(Role.ROUTE_FARE_MANAGER, res.getRole());
+    }
+
+    @Test
+    void testUpdateUserRole_Success() {
+        User u = new User();
+        u.setId(5L);
+        u.setRole(Role.PASSENGER);
+
+        when(userRepository.findById(5L)).thenReturn(Optional.of(u));
+        when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArgument(0));
+
+        com.transitease.dto.UserResponse res = userService.updateUserRole(5L, Role.ADMIN);
+
+        assertEquals(Role.ADMIN, res.getRole());
+    }
+
+    @Test
+    void testDeleteUser_Success() {
+        User u = new User();
+        u.setId(5L);
+        u.setEmail("other@example.com");
+
+        when(userRepository.findById(5L)).thenReturn(Optional.of(u));
+        doNothing().when(userRepository).delete(u);
+
+        org.springframework.security.core.userdetails.User adminPrincipal =
+                new org.springframework.security.core.userdetails.User("admin@example.com", "pass",
+                        java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_ADMIN")));
+        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(
+                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(adminPrincipal, null, adminPrincipal.getAuthorities())
+        );
+
+        userService.deleteUser(5L);
+
+        verify(userRepository, times(1)).delete(u);
+    }
 }

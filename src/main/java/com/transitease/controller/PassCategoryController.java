@@ -22,7 +22,7 @@ public class PassCategoryController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROUTE_FARE_MANAGER')")
     public ResponseEntity<PassCategoryResponse> createPassCategory(@Valid @RequestBody PassCategoryRequest request) {
         PassCategoryResponse response = passCategoryService.createPassCategory(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -41,7 +41,7 @@ public class PassCategoryController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROUTE_FARE_MANAGER')")
     public ResponseEntity<PassCategoryResponse> updatePassCategory(@PathVariable Long id,
                                                                    @Valid @RequestBody PassCategoryRequest request) {
         PassCategoryResponse response = passCategoryService.updatePassCategory(id, request);
@@ -49,7 +49,7 @@ public class PassCategoryController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'ROUTE_FARE_MANAGER')")
     public ResponseEntity<Void> deletePassCategory(@PathVariable Long id) {
         passCategoryService.deletePassCategory(id);
         return ResponseEntity.noContent().build();
