@@ -1,0 +1,1162 @@
+// Comprehensive translation dictionaries for English (en), Hindi (hi), and Marathi (mr)
+
+export const translations = {
+  en: {
+    // Brand & Header
+    brandTitle: "PMPML TransitEase",
+    brandSubtitle: "Pune Mahanagar Parivahan",
+    tagline: "Smart Urban Transit Pass System",
+    signIn: "Sign In",
+    signOut: "Sign Out",
+    register: "Register",
+    passengerRegister: "Passenger Registration",
+    welcome: "Welcome",
+    notifications: "Notifications",
+    unread: "Unread",
+    markAllRead: "Mark all as read",
+    markRead: "Mark as Read",
+    refresh: "Refresh",
+    close: "Close",
+    cancel: "Cancel",
+    save: "Save",
+    submit: "Submit",
+    confirm: "Confirm",
+    delete: "Delete",
+    loading: "Loading...",
+    actions: "Actions",
+
+    // Roles
+    rolePassenger: "Passenger",
+    roleVerifier: "Verification Officer",
+    roleApprover: "Approval Officer",
+    roleAdmin: "System Admin",
+    roleRouteManager: "Route Manager",
+
+    // Navigation Tabs (Passenger)
+    tabPassInfo: "Pass Information",
+    tabApply: "Apply for Pass",
+    tabMyPasses: "My Digital Passes",
+    tabApplications: "Applications & Docs",
+    tabRoutes: "Routes & Fares (₹)",
+    tabHistory: "Pass History",
+
+    // Pass Category Groups
+    allPasses: "All Passes",
+    groupGeneral: "A. General Passenger Passes",
+    groupStudent: "B. Student Passes",
+    groupSenior: "C. Senior Citizen Passes",
+    groupConcessionary: "D. Other Concessionary Passes",
+
+    // Pass Details & Card Labels
+    viewDetails: "View Details",
+    applyNow: "Apply Now",
+    applicableFare: "Applicable Fare",
+    validity: "Validity",
+    eligibility: "Eligibility Criteria",
+    coveredArea: "Covered Area / Route Scope",
+    concessionDetails: "Concession / Discount Details",
+    requiredDocuments: "Required Documents",
+    viewRequiredDocs: "View Required Documents",
+    hideRequiredDocs: "Hide Required Documents",
+    mandatoryDocsLabel: "* Mandatory to attach:",
+    optionalDocsLabel: "Optional supporting documents:",
+    noDocsRequired: "✓ No supporting document upload required for this pass. Identity verification, if any, is performed on-board.",
+    fareOnConfirmation: "Fare on Confirmation",
+    fareRuleBased: "Concessional / Rule-based",
+    farePunching: "Concessional (Punching Concession)",
+
+    // Application Form
+    applyTitle: "Apply for PMPML Transit Pass",
+    applySubtitle: "Select your eligible pass category, verify document requirements, and submit your application.",
+    backToCatalog: "← Back to Pass Information",
+    selectCategoryPlaceholder: "-- Select a PMPML Pass --",
+    selectedPassSummary: "Selected Pass Summary",
+    uploadDocumentLabel: "Upload Supporting Document",
+    chooseFile: "Choose File",
+    changeFile: "Change File",
+    removeFile: "Remove",
+    selectedFile: "Selected File",
+    allowedFormats: "Allowed formats: PDF, JPG, PNG (Max 5 MB).",
+    submitApplicationBtn: "Submit Pass Application",
+    submittingBtn: "Submitting Application...",
+
+    // Form Sections & Passenger Details
+    secPassengerDetails: "1. Passenger Personal Details",
+    secPassSelection: "2. Pass Selection & Details",
+    secRequiredDocs: "3. Dynamic Document Checklist & Uploads",
+    secReviewSubmit: "4. Review & Submit Application",
+    fullNameLabel: "Full Name *",
+    dobLabel: "Date of Birth *",
+    genderLabel: "Gender",
+    mobileLabel: "Mobile Number *",
+    emailLabel: "Email Address *",
+    addressLabel: "Residential Address *",
+    cityLabel: "City *",
+    pincodeLabel: "PIN Code *",
+    categoryLabel: "Passenger Category *",
+    sourceStopLabel: "Source / Starting Stop (Optional)",
+    destinationStopLabel: "Destination Stop (Optional)",
+    institutionLabel: "School / College / Institution / Employer",
+    emergencyLabel: "Emergency Contact (Optional)",
+    docChecklistTitle: "Document Requirements Checklist",
+    docsAllAttached: "All mandatory documents attached",
+    docsMissingAlert: "Please attach all mandatory documents before submitting.",
+    uploadCardPrompt: "Attach document file",
+    replaceDocBtn: "Replace Document",
+    docStatusPending: "Pending Verification",
+    docStatusVerified: "Verified",
+    docStatusRejected: "Documents Rejected",
+    docReviewHeader: "Document Verification Status",
+    confirmReplace: "Replace with new file",
+    statusDocsRejected: "Documents Rejected",
+
+    // Form Validation Messages
+    errSelectCategory: "Please select a pass category.",
+    errMandatoryDocMissing: "This pass requires mandatory supporting documents. Please upload the required file before submitting.",
+    errFileTooLarge: "File size exceeds the 5 MB limit. Please select a smaller file.",
+    errFileInvalidType: "Invalid file type. Only PDF, JPG, and PNG files are allowed.",
+    appSubmitSuccess: "Application submitted successfully! Status is PENDING verification.",
+    appSubmitDocError: "Application created, but document upload encountered an issue: ",
+
+    // My Passes
+    myPassesTitle: "My Digital Passes",
+    myPassesSubtitle: "View active and historical passes or download official PDF copies.",
+    noPassesFound: "No digital passes found",
+    noPassesDesc: "You don't have any approved digital passes yet.",
+    passNumber: "PASS NUMBER",
+    holder: "HOLDER",
+    validFrom: "VALID FROM",
+    expiresOn: "EXPIRES ON",
+    downloadPdf: "Download PDF",
+    renewPass: "Renew Pass",
+    renewConfirm: "Are you sure you want to request renewal for this pass?",
+    renewSubmitting: "Submitting...",
+
+    // Statuses
+    statusPending: "Pending Review",
+    statusVerified: "Verified (Awaiting Approval)",
+    statusApproved: "Approved / Active",
+    statusRejected: "Rejected",
+    statusExpired: "Expired",
+
+    // Applications & Docs
+    applicationsTitle: "My Applications",
+    applicationsSubtitle: "Track application verification status, officer remarks, and attached proofs.",
+    noApplicationsFound: "No applications yet",
+    appId: "App ID",
+    category: "Category",
+    type: "Type",
+    appDate: "Application Date",
+    status: "Status",
+    remarks: "Officer Remarks",
+    documents: "Documents",
+    attachedDocs: "Attached Documents",
+    uploadAdditionalDoc: "Upload Additional Document",
+
+    // Routes
+    routesTitle: "PMPML Bus Routes & Fares (₹)",
+    routesSubtitle: "Explore major city and suburban transit lines, stages, and single journey passenger fares.",
+    fare: "Fare",
+    routeNumber: "Route #",
+    intermediateStops: "Intermediate Stops:",
+    distance: "Distance",
+
+    // History
+    historyTitle: "Pass & Application History",
+    historySubtitle: "Audit trail of all previous commuter requests and issued digital passes.",
+    applicationsAudit: "Applications Audit",
+    passesAudit: "Digital Passes Audit",
+
+    // Officer Dashboard
+    officerPortal: "Officer Portal",
+    officerQueueTitle: "Pass Applications Queue",
+    officerQueueSubtitle: "Workflow enforcement: PENDING ➔ VERIFIED ➔ APPROVED or REJECTED.",
+    filterStatus: "Status:",
+    applicant: "Applicant",
+    submittedDate: "Submitted Date",
+    viewDocs: "View Docs",
+    btnVerify: "✓ Verify",
+    btnApprove: "✓ Approve",
+    btnReject: "✗ Reject",
+    verifyModalTitle: "Verify Application",
+    approveModalTitle: "Approve Application",
+    rejectModalTitle: "Reject Application",
+    remarksPlaceholder: "Enter remarks...",
+    rejectionReasonRequired: "Rejection Reason / Remarks *",
+    confirmStatus: "Confirm",
+
+    // Admin Dashboard
+    adminPortal: "Admin Control Center",
+    tabReports: "Overview & Reports",
+    tabStaff: "Staff & Users",
+    tabRouteMgmt: "Route Management",
+    tabCategoryMgmt: "Pass Categories",
+    totalUsers: "Total Users",
+    totalApplications: "Total Applications",
+    approvedIssued: "Approved / Issued",
+    activeDigitalPasses: "Active Digital Passes",
+    onboardStaff: "+ Onboard Staff",
+    addRoute: "+ Add Route",
+    addCategory: "+ Add Category",
+
+    // Language Selector
+    language: "Language",
+    selectLanguage: "Language / भाषा",
+  },
+
+  hi: {
+    // Brand & Header
+    brandTitle: "पीएमपीएमएल ट्रांजिटईज",
+    brandSubtitle: "पुणे महानगर परिवहन",
+    tagline: "स्मार्ट शहरी सार्वजनिक बस पास प्रणाली",
+    signIn: "लॉग इन करें",
+    signOut: "लॉग आउट",
+    register: "पंजीकरण",
+    passengerRegister: "यात्री पंजीकरण",
+    welcome: "स्वागत है",
+    notifications: "सूचनाएं",
+    unread: "अपठित",
+    markAllRead: "सभी को पढ़ा हुआ चिन्हित करें",
+    markRead: "पढ़ा हुआ चिन्हित करें",
+    refresh: "ताज़ा करें",
+    close: "बंद करें",
+    cancel: "रद्द करें",
+    save: "सहेजें",
+    submit: "जमा करें",
+    confirm: "पुष्टि करें",
+    delete: "हटाएं",
+    loading: "लोड हो रहा है...",
+    actions: "कार्रवाई",
+
+    // Roles
+    rolePassenger: "यात्री",
+    roleVerifier: "दस्तावेज़ सत्यापन अधिकारी",
+    roleApprover: "पास अनुमोदन अधिकारी",
+    roleAdmin: "सिस्टम व्यवस्थापक",
+    roleRouteManager: "मार्ग प्रबंधक",
+
+    // Navigation Tabs (Passenger)
+    tabPassInfo: "पास जानकारी",
+    tabApply: "पास के लिए आवेदन करें",
+    tabMyPasses: "मेरे डिजिटल पास",
+    tabApplications: "आवेदन व दस्तावेज़",
+    tabRoutes: "मार्ग और किराया (₹)",
+    tabHistory: "पास इतिहास",
+
+    // Pass Category Groups
+    allPasses: "सभी पास",
+    groupGeneral: "क. सामान्य यात्री पास",
+    groupStudent: "ख. विद्यार्थी पास",
+    groupSenior: "ग. वरिष्ठ नागरिक पास",
+    groupConcessionary: "घ. अन्य रियायती पास",
+
+    // Pass Details & Card Labels
+    viewDetails: "विवरण देखें",
+    applyNow: "आवेदन करें",
+    applicableFare: "लागू किराया",
+    validity: "वैधता",
+    eligibility: "पात्रता मानदंड",
+    coveredArea: "कवर किया गया क्षेत्र / दायरा",
+    concessionDetails: "रियायत / छूट विवरण",
+    requiredDocuments: "आवश्यक दस्तावेज़",
+    viewRequiredDocs: "आवश्यक दस्तावेज़ देखें",
+    hideRequiredDocs: "दस्तावेज़ सूची छिपाएं",
+    mandatoryDocsLabel: "* संलग्न करना अनिवार्य है:",
+    optionalDocsLabel: "वैकल्पिक सहायक दस्तावेज़:",
+    noDocsRequired: "✓ इस पास के लिए कोई दस्तावेज़ अपलोड आवश्यक नहीं है। पहचान सत्यापन यदि आवश्यक हो तो बस में किया जाता है।",
+    fareOnConfirmation: "पुष्टि पर किराया",
+    fareRuleBased: "रियायती / नियमानुसार",
+    farePunching: "रियायती (पंचिंग रियायत)",
+
+    // Application Form
+    applyTitle: "पीएमपीएमएल बस पास हेतु आवेदन",
+    applySubtitle: "अपनी पात्र पास श्रेणी चुनें, दस्तावेज़ सूची देखें और अपना आवेदन जमा करें।",
+    backToCatalog: "← पास जानकारी पर वापस जाएं",
+    selectCategoryPlaceholder: "-- पीएमपीएमएल पास चुनें --",
+    selectedPassSummary: "चयनित पास का विवरण",
+    uploadDocumentLabel: "सहायक दस्तावेज़ अपलोड करें",
+    chooseFile: "फ़ाइल चुनें",
+    changeFile: "फ़ाइल बदलें",
+    removeFile: "हटाएं",
+    selectedFile: "चयनित फ़ाइल",
+    allowedFormats: "स्वीकार्य प्रारूप: PDF, JPG, PNG (अधिकतम 5 MB)।",
+    submitApplicationBtn: "पास आवेदन जमा करें",
+    submittingBtn: "आवेदन जमा हो रहा है...",
+
+    // Form Sections & Passenger Details
+    secPassengerDetails: "1. यात्री व्यक्तिगत विवरण",
+    secPassSelection: "2. पास चयन एवं विवरण",
+    secRequiredDocs: "3. दस्तावेज़ चेकलिस्ट एवं अपलोड",
+    secReviewSubmit: "4. समीक्षा और आवेदन जमा करें",
+    fullNameLabel: "पूरा नाम *",
+    dobLabel: "जन्म तिथि *",
+    genderLabel: "लिंग",
+    mobileLabel: "मोबाइल नंबर *",
+    emailLabel: "ईमेल पता *",
+    addressLabel: "आवासीय पता *",
+    cityLabel: "शहर *",
+    pincodeLabel: "पिन कोड *",
+    categoryLabel: "यात्री श्रेणी *",
+    sourceStopLabel: "आरंभिक स्टॉप (वैकल्पिक)",
+    destinationStopLabel: "गंतव्य स्टॉप (वैकल्पिक)",
+    institutionLabel: "स्कूल / कॉलेज / संस्थान / नियोक्ता",
+    emergencyLabel: "आपातकालीन संपर्क (वैकल्पिक)",
+    docChecklistTitle: "दस्तावेज़ आवश्यकता चेकलिस्ट",
+    docsAllAttached: "सभी अनिवार्य दस्तावेज़ संलग्न हैं",
+    docsMissingAlert: "कृपया जमा करने से पहले सभी अनिवार्य दस्तावेज़ संलग्न करें।",
+    uploadCardPrompt: "दस्तावेज़ फ़ाइल संलग्न करें",
+    replaceDocBtn: "दस्तावेज़ बदलें",
+    docStatusPending: "सत्यापन लंबित",
+    docStatusVerified: "सत्यापित",
+    docStatusRejected: "दस्तावेज़ अस्वीकृत",
+    docReviewHeader: "दस्तावेज़ सत्यापन स्थिति",
+    confirmReplace: "नई फ़ाइल से बदलें",
+    statusDocsRejected: "दस्तावेज़ अस्वीकृत",
+
+    // Form Validation Messages
+    errSelectCategory: "कृपया पास श्रेणी का चयन करें।",
+    errMandatoryDocMissing: "इस पास के लिए अनिवार्य दस्तावेज़ आवश्यक हैं। कृपया जमा करने से पहले आवश्यक फ़ाइल अपलोड करें।",
+    errFileTooLarge: "फ़ाइल का आकार 5 MB की सीमा से अधिक है। कृपया छोटी फ़ाइल चुनें।",
+    errFileInvalidType: "अमान्य फ़ाइल प्रकार। केवल PDF, JPG और PNG फ़ाइलें स्वीकार्य हैं।",
+    appSubmitSuccess: "आवेदन सफलतापूर्वक जमा हुआ! स्थिति सत्यापन हेतु लंबित (PENDING) है।",
+    appSubmitDocError: "आवेदन बन गया, परंतु दस्तावेज़ अपलोड में त्रुटि हुई: ",
+
+    // My Passes
+    myPassesTitle: "मेरे डिजिटल पास",
+    myPassesSubtitle: "सक्रिय और पुराने पास देखें अथवा आधिकारिक PDF प्रति डाउनलोड करें।",
+    noPassesFound: "कोई डिजिटल पास नहीं मिला",
+    noPassesDesc: "आपके पास अभी तक कोई स्वीकृत डिजिटल पास नहीं है।",
+    passNumber: "पास संख्या",
+    holder: "धारक",
+    validFrom: "वैधता प्रारंभ",
+    expiresOn: "वैधता समाप्ति",
+    downloadPdf: "PDF डाउनलोड करें",
+    renewPass: "पास नवीनीकृत करें",
+    renewConfirm: "क्या आप वाकई इस पास के नवीनीकरण हेतु अनुरोध करना चाहते हैं?",
+    renewSubmitting: "जमा हो रहा है...",
+
+    // Statuses
+    statusPending: "समीक्षा लंबित (Pending)",
+    statusVerified: "सत्यापित (अनुमोदन प्रतीक्षित)",
+    statusApproved: "स्वीकृत / सक्रिय (Active)",
+    statusRejected: "अस्वीकृत (Rejected)",
+    statusExpired: "समाप्त (Expired)",
+
+    // Applications & Docs
+    applicationsTitle: "मेरे आवेदन",
+    applicationsSubtitle: "आवेदन सत्यापन स्थिति, अधिकारी की टिप्पणी और संलग्न प्रमाण देखें।",
+    noApplicationsFound: "अभी तक कोई आवेदन नहीं",
+    appId: "आवेदन सं.",
+    category: "श्रेणी",
+    type: "प्रकार",
+    appDate: "आवेदन तिथि",
+    status: "स्थिति",
+    remarks: "अधिकारी टिप्पणी",
+    documents: "दस्तावेज़",
+    attachedDocs: "संलग्न दस्तावेज़",
+    uploadAdditionalDoc: "अतिरिक्त दस्तावेज़ अपलोड करें",
+
+    // Routes
+    routesTitle: "पीएमपीएमएल बस मार्ग एवं किराया (₹)",
+    routesSubtitle: "शहर और उपनगरीय मार्गों, चरणों और यात्री किरायों की जानकारी देखें।",
+    fare: "किराया",
+    routeNumber: "मार्ग सं.",
+    intermediateStops: "मध्यवर्ती स्टॉप:",
+    distance: "दूरी",
+
+    // History
+    historyTitle: "पास एवं आवेदन इतिहास",
+    historySubtitle: "पूर्ववर्ती सभी आवेदनों और जारी डिजिटल पासों का संपूर्ण लेखा-जोखा।",
+    applicationsAudit: "आवेदन लेखा",
+    passesAudit: "डिजिटल पास लेखा",
+
+    // Officer Dashboard
+    officerPortal: "अधिकारी पोर्टल",
+    officerQueueTitle: "पास आवेदन कतार",
+    officerQueueSubtitle: "प्रक्रिया नियम: लंबित ➔ सत्यापित ➔ स्वीकृत अथवा अस्वीकृत।",
+    filterStatus: "स्थिति:",
+    applicant: "आवेदक",
+    submittedDate: "जमा तिथि",
+    viewDocs: "दस्तावेज़ देखें",
+    btnVerify: "✓ सत्यापित करें",
+    btnApprove: "✓ स्वीकृत करें",
+    btnReject: "✗ अस्वीकृत करें",
+    verifyModalTitle: "आवेदन सत्यापित करें",
+    approveModalTitle: "आवेदन स्वीकृत करें",
+    rejectModalTitle: "आवेदन अस्वीकृत करें",
+    remarksPlaceholder: "टिप्पणी दर्ज करें...",
+    rejectionReasonRequired: "अस्वीकृति का कारण / टिप्पणी *",
+    confirmStatus: "पुष्टि करें",
+
+    // Admin Dashboard
+    adminPortal: "प्रशासन नियंत्रण केंद्र",
+    tabReports: "अवलोकन एवं रिपोर्ट",
+    tabStaff: "कर्मचारी एवं उपयोगकर्ता",
+    tabRouteMgmt: "मार्ग प्रबंधन",
+    tabCategoryMgmt: "पास श्रेणियां",
+    totalUsers: "कुल उपयोगकर्ता",
+    totalApplications: "कुल आवेदन",
+    approvedIssued: "स्वीकृत / जारी पास",
+    activeDigitalPasses: "सक्रिय डिजिटल पास",
+    onboardStaff: "+ कर्मचारी जोड़ें",
+    addRoute: "+ नया मार्ग जोड़ें",
+    addCategory: "+ नई श्रेणी जोड़ें",
+
+    // Language Selector
+    language: "भाषा",
+    selectLanguage: "भाषा / Language",
+  },
+
+  mr: {
+    // Brand & Header
+    brandTitle: "पीएमपीएमएल ट्रान्झिटईझ",
+    brandSubtitle: "पुणे महानगर परिवहन",
+    tagline: "स्मार्ट शहरी सार्वजनिक बस पास प्रणाली",
+    signIn: "लॉग इन करा",
+    signOut: "लॉग आउट",
+    register: "नोंदणी",
+    passengerRegister: "प्रवासी नोंदणी",
+    welcome: "स्वागत आहे",
+    notifications: "सूचना",
+    unread: "न वाचलेले",
+    markAllRead: "सर्व वाचलेले म्हणून चिन्हांकित करा",
+    markRead: "वाचले म्हणून चिन्हांकित करा",
+    refresh: "ताजे करा",
+    close: "बंद करा",
+    cancel: "रद्द करा",
+    save: "जतन करा",
+    submit: "सादर करा",
+    confirm: "पुष्टी करा",
+    delete: "हटवा",
+    loading: "लोड होत आहे...",
+    actions: "कृती",
+
+    // Roles
+    rolePassenger: "प्रवासी",
+    roleVerifier: "कागदपत्र पडताळणी अधिकारी",
+    roleApprover: "पास मंजुरी अधिकारी",
+    roleAdmin: "प्रणाली प्रशासक",
+    roleRouteManager: "मार्ग व्यवस्थापक",
+
+    // Navigation Tabs (Passenger)
+    tabPassInfo: "पास माहिती",
+    tabApply: "पाससाठी अर्ज करा",
+    tabMyPasses: "माझे डिजिटल पास",
+    tabApplications: "अर्ज व कागदपत्रे",
+    tabRoutes: "मार्ग आणि भाडे (₹)",
+    tabHistory: "पास इतिहास",
+
+    // Pass Category Groups
+    allPasses: "सर्व पास",
+    groupGeneral: "अ. सर्वसाधारण प्रवासी पास",
+    groupStudent: "ब. विद्यार्थी पास",
+    groupSenior: "क. ज्येष्ठ नागरिक पास",
+    groupConcessionary: "ड. इतर सवलतीचे पास",
+
+    // Pass Details & Card Labels
+    viewDetails: "तपशील पहा",
+    applyNow: "अर्ज करा",
+    applicableFare: "लागू भाडे",
+    validity: "वैधता",
+    eligibility: "पात्रता निकष",
+    coveredArea: "प्रवासाचे कार्यक्षेत्र",
+    concessionDetails: "सवलत / सूट तपशील",
+    requiredDocuments: "आवश्यक कागदपत्रे",
+    viewRequiredDocs: "आवश्यक कागदपत्रे पहा",
+    hideRequiredDocs: "कागदपत्रे लपवा",
+    mandatoryDocsLabel: "* जोडणे बंधनकारक आहे:",
+    optionalDocsLabel: "पर्यायी पूरक कागदपत्रे:",
+    noDocsRequired: "✓ या पाससाठी कोणतेही कागदपत्र अपलोड करण्याची आवश्यकता नाही. ओळख पडताळणी बस प्रवासादरम्यान केली जाते.",
+    fareOnConfirmation: "पडताळणीनंतर निश्चित",
+    fareRuleBased: "सवलतीचे / नियमानुसार",
+    farePunching: "सवलतीचे (पंचिंग सवलत)",
+
+    // Application Form
+    applyTitle: "पीएमपीएमएल बस पास अर्ज",
+    applySubtitle: "आपली पात्र पास श्रेणी निवडा, आवश्यक कागदपत्रे तपासा आणि आपला अर्ज सादर करा.",
+    backToCatalog: "← पास माहितीवर परत जा",
+    selectCategoryPlaceholder: "-- पीएमपीएमएल पास निवडा --",
+    selectedPassSummary: "निवडलेल्या पासचा तपशील",
+    uploadDocumentLabel: "आवश्यक कागदपत्र अपलोड करा",
+    chooseFile: "फाइल निवडा",
+    changeFile: "फाइल बदला",
+    removeFile: "काढून टाका",
+    selectedFile: "निवडलेली फाइल",
+    allowedFormats: "मान्य स्वरूप: PDF, JPG, PNG (कमाल ५ MB).",
+    submitApplicationBtn: "पास अर्ज सादर करा",
+    submittingBtn: "अर्ज सादर होत आहे...",
+
+    // Form Sections & Passenger Details
+    secPassengerDetails: "१. प्रवासी वैयक्तिक तपशील",
+    secPassSelection: "२. पास निवड व तपशील",
+    secRequiredDocs: "३. कागदपत्र चेकलिस्ट व अपलोड",
+    secReviewSubmit: "४. पुनरावलोकन आणि अर्ज सादर करा",
+    fullNameLabel: "पूर्ण नाव *",
+    dobLabel: "जन्मतारीख *",
+    genderLabel: "लिंग",
+    mobileLabel: "मोबाईल नंबर *",
+    emailLabel: "ईमेल पत्ता *",
+    addressLabel: "निवासी पत्ता *",
+    cityLabel: "शहर *",
+    pincodeLabel: "पिन कोड *",
+    categoryLabel: "प्रवासी श्रेणी *",
+    sourceStopLabel: "प्रारंभिक बस थांबा (पर्यायी)",
+    destinationStopLabel: "गंतव्य बस थांबा (पर्यायी)",
+    institutionLabel: "शाळा / महाविद्यालय / संस्था / नियोक्ता",
+    emergencyLabel: "आपत्कालीन संपर्क (पर्यायी)",
+    docChecklistTitle: "कागदपत्र आवश्यकता चेकलिस्ट",
+    docsAllAttached: "सर्व बंधनकारक कागदपत्रे जोडली आहेत",
+    docsMissingAlert: "कृपया अर्ज सादर करण्यापूर्वी सर्व बंधनकारक कागदपत्रे जोडा.",
+    uploadCardPrompt: "कागदपत्र फाइल जोडा",
+    replaceDocBtn: "कागदपत्र बदला",
+    docStatusPending: "पडताळणी प्रलंबित",
+    docStatusVerified: "पडताळलेले",
+    docStatusRejected: "कागदपत्रे नाकारली",
+    docReviewHeader: "कागदपत्र पडताळणी स्थिती",
+    confirmReplace: "नवीन फाइलने बदला",
+    statusDocsRejected: "कागदपत्रे नाकारली",
+
+    // Form Validation Messages
+    errSelectCategory: "कृपया पास श्रेणी निवडा.",
+    errMandatoryDocMissing: "या पाससाठी बंधनकारक कागदपत्रे आवश्यक आहेत. कृपया अर्ज सादर करण्यापूर्वी फाइल अपलोड करा.",
+    errFileTooLarge: "फाइलचा आकार ५ MB पेक्षा जास्त आहे. कृपया लहान फाइल निवडा.",
+    errFileInvalidType: "अवैध फाइल स्वरूप. फक्त PDF, JPG आणि PNG फाइल्स मान्य आहेत.",
+    appSubmitSuccess: "अर्ज यशस्वीरीत्या सादर केला! स्थिती पडताळणीसाठी प्रलंबित (PENDING) आहे.",
+    appSubmitDocError: "अर्ज तयार झाला, परंतु कागदपत्र अपलोड करताना अडचण आली: ",
+
+    // My Passes
+    myPassesTitle: "माझे डिजिटल पास",
+    myPassesSubtitle: "सक्रिय आणि जुने पास पहा किंवा अधिकृत PDF प्रत डाउनलोड करा.",
+    noPassesFound: "कोणताही डिजिटल पास आढळला नाही",
+    noPassesDesc: "आपल्याकडे अद्याप कोणताही मंजूर डिजिटल पास नाही.",
+    passNumber: "पास क्रमांक",
+    holder: "धारक",
+    validFrom: "वैधता प्रारंभ",
+    expiresOn: "वैधता समाप्ती",
+    downloadPdf: "PDF डाउनलोड करा",
+    renewPass: "पास नूतनीकरण करा",
+    renewConfirm: "आपण खरोखर या पासच्या नूतनीकरणासाठी विनंती करू इच्छिता?",
+    renewSubmitting: "सादर होत आहे...",
+
+    // Statuses
+    statusPending: "पडताळणी प्रलंबित (Pending)",
+    statusVerified: "पडताळणी पूर्ण (मंजुरी प्रतीक्षेत)",
+    statusApproved: "मंजूर / सक्रिय (Active)",
+    statusRejected: "नाकारले (Rejected)",
+    statusExpired: "मुदत संपली (Expired)",
+
+    // Applications & Docs
+    applicationsTitle: "माझे अर्ज",
+    applicationsSubtitle: "अर्ज पडताळणी स्थिती, अधिकाऱ्यांचे शेरे आणि जोडलेली कागदपत्रे पहा.",
+    noApplicationsFound: "अद्याप कोणताही अर्ज नाही",
+    appId: "अर्ज क्र.",
+    category: "श्रेणी",
+    type: "प्रकार",
+    appDate: "अर्जाची तारीख",
+    status: "स्थिती",
+    remarks: "अधिकाऱ्यांचा शेरा",
+    documents: "कागदपत्रे",
+    attachedDocs: "जोडलेली कागदपत्रे",
+    uploadAdditionalDoc: "अतिरिक्त कागदपत्र अपलोड करा",
+
+    // Routes
+    routesTitle: "पीएमपीएमएल बस मार्ग व भाडे (₹)",
+    routesSubtitle: "शहरातील आणि उपनगरातील बस मार्ग, थांबे आणि प्रवासी भाडे तपासा.",
+    fare: "भाडे",
+    routeNumber: "मार्ग क्र.",
+    intermediateStops: "मध्यवर्ती बस थांबे:",
+    distance: "अंतर",
+
+    // History
+    historyTitle: "पास व अर्ज इतिहास",
+    historySubtitle: "मागील सर्व अर्ज आणि जारी केलेल्या डिजिटल पासची नोंद.",
+    applicationsAudit: "अर्ज नोंदवही",
+    passesAudit: "डिजिटल पास नोंदवही",
+
+    // Officer Dashboard
+    officerPortal: "अधिकारी पोर्टल",
+    officerQueueTitle: "पास अर्ज पडताळणी रांग",
+    officerQueueSubtitle: "प्रक्रिया नियम: प्रलंबित ➔ पडताळणी पूर्ण ➔ मंजूर किंवा नाकारले.",
+    filterStatus: "स्थिती:",
+    applicant: "अर्जदार",
+    submittedDate: "सादर तारीख",
+    viewDocs: "कागदपत्रे पहा",
+    btnVerify: "✓ पडताळणी करा",
+    btnApprove: "✓ मंजूर करा",
+    btnReject: "✗ नाकारा",
+    verifyModalTitle: "अर्ज पडताळणी करा",
+    approveModalTitle: "अर्ज मंजूर करा",
+    rejectModalTitle: "अर्ज नाकारा",
+    remarksPlaceholder: "शेरा नोंदवा...",
+    rejectionReasonRequired: "नाकारण्याचे कारण / शेरा *",
+    confirmStatus: "पुष्टी करा",
+
+    // Admin Dashboard
+    adminPortal: "प्रशासक नियंत्रण केंद्र",
+    tabReports: "आढावा आणि अहवाल",
+    tabStaff: "कर्मचारी व वापरकर्ते",
+    tabRouteMgmt: "मार्ग व्यवस्थापन",
+    tabCategoryMgmt: "पास श्रेणी व्यवस्थापन",
+    totalUsers: "एकूण वापरकर्ते",
+    totalApplications: "एकूण अर्ज",
+    approvedIssued: "मंजूर / जारी पास",
+    activeDigitalPasses: "सक्रिय डिजिटल पास",
+    onboardStaff: "+ नवीन कर्मचारी जोडा",
+    addRoute: "+ नवीन मार्ग जोडा",
+    addCategory: "+ नवीन श्रेणी जोडा",
+
+    // Language Selector
+    language: "भाषा",
+    selectLanguage: "भाषा / Language",
+  },
+};
+
+export const passCatalogTranslations = {
+  "PMC & PCMC Area Daily Pass": {
+    en: {
+      name: "PMC & PCMC Area Daily Pass",
+      description: "24-hour unlimited validity on all standard PMPML bus routes within Pune Municipal Corporation (PMC) and Pimpri Chinchwad (PCMC) limits.",
+      eligibility: "Open to all general passengers travelling within PMC and PCMC municipal limits.",
+      coveredArea: "PMC & PCMC Municipal Corporation Limits (Pune & Pimpri-Chinchwad city corridors)",
+      discountDetails: "Standard 24-hour municipal commuter daily pass.",
+      mandatoryDocs: [],
+      optionalDocs: ["Government-issued photo ID (if requested for on-board ticket inspection)"],
+    },
+    hi: {
+      name: "पुणे व पिंपरी चिंचवड मनपा दैनिक पास (PMC & PCMC)",
+      description: "पुणे नगर निगम (PMC) और पिंपरी चिंचवड (PCMC) सीमा के अंतर्गत सभी नियमित पीएमपीएमएल बस मार्गों पर 24 घंटे असीमित यात्रा।",
+      eligibility: "पुणे और पिंपरी चिंचवड नगर निगम सीमा में यात्रा करने वाले सभी सामान्य यात्रियों के लिए उपलब्ध।",
+      coveredArea: "पुणे व पिंपरी चिंचवड नगर निगम सीमा (शहरी गलियारे)",
+      discountDetails: "मानक 24-घंटे नगर निगम दैनिक बस पास।",
+      mandatoryDocs: [],
+      optionalDocs: ["सरकारी फोटो पहचान पत्र (यदि बस में टिकट चेकिंग के समय मांगा जाए)"],
+    },
+    mr: {
+      name: "पुणे व पिंपरी चिंचवड मनपा दैनिक पास (PMC व PCMC)",
+      description: "पुणे महानगरपालिका (PMC) आणि पिंपरी चिंचवड (PCMC) हद्दीतील सर्व नियमित पीएमपीएमएल बस मार्गांवर २४ तास अमर्याद प्रवास.",
+      eligibility: "पुणे व पिंपरी चिंचवड हद्दीत प्रवास करणाऱ्या सर्व सामान्य प्रवाशांसाठी खुला.",
+      coveredArea: "पुणे व पिंपरी चिंचवड महानगरपालिका कार्यक्षेत्र (शहरी बस मार्ग)",
+      discountDetails: "प्रमाणित २४-तास महानगरपालिका दैनिक प्रवासी पास.",
+      mandatoryDocs: [],
+      optionalDocs: ["शासकीय ओळखपत्र (आवश्यकता भासल्यास बस तपासणीसाठी)"],
+    },
+  },
+
+  "All-PMPML / PMRDA Area Daily Pass": {
+    en: {
+      name: "All-PMPML / PMRDA Area Daily Pass",
+      description: "24-hour unlimited travel across entire PMPML network including PMRDA extended rural and metro feeder routes.",
+      eligibility: "Open to all general passengers travelling across the entire Pune Metropolitan Region.",
+      coveredArea: "Entire PMPML & PMRDA Network (Pune, PCMC, Rural corridors & Metro Feeder lines)",
+      discountDetails: "Full-network 24-hour unrestricted daily transit pass.",
+      mandatoryDocs: [],
+      optionalDocs: ["Government-issued photo ID (if requested for on-board inspection)"],
+    },
+    hi: {
+      name: "संपूर्ण पीएमपीएमएल / पीएमआरडीए दैनिक पास",
+      description: "संपूर्ण पीएमपीएमएल नेटवर्क पर 24 घंटे असीमित यात्रा, जिसमें पीएमआरडीए विस्तारित ग्रामीण और मेट्रो फीडर मार्ग सम्मिलित हैं।",
+      eligibility: "संपूर्ण पुणे महानगर क्षेत्र (PMRDA) में यात्रा करने वाले सभी सामान्य यात्रियों के लिए उपलब्ध।",
+      coveredArea: "संपूर्ण पीएमपीएमएल व पीएमआरडीए नेटवर्क (पुणे, पिंपरी-चिंचवड, ग्रामीण व मेट्रो फीडर मार्ग)",
+      discountDetails: "पूर्ण नेटवर्क 24-घंटे अप्रतिबंधित दैनिक ट्रांजिट पास।",
+      mandatoryDocs: [],
+      optionalDocs: ["सरकारी फोटो पहचान पत्र (यदि बस में निरीक्षण हेतु मांगा जाए)"],
+    },
+    mr: {
+      name: "संपूर्ण पीएमपीएमएल / पीएमआरडीए दैनिक पास",
+      description: "संपूर्ण पीएमपीएमएल नेटवर्कवर २४ तास अमर्याद प्रवास, ज्यामध्ये पीएमआरडीए विस्तारित ग्रामीण आणि मेट्रो फीडर मार्गांचा समावेश आहे.",
+      eligibility: "संपूर्ण पुणे महानगर प्रदेशात (PMRDA) प्रवास करणाऱ्या सर्व सामान्य प्रवाशांसाठी खुला.",
+      coveredArea: "संपूर्ण पीएमपीएमएल व पीएमआरडीए कार्यक्षेत्र (पुणे, पिंपरी-चिंचवड, ग्रामीण व मेट्रो फीडर मार्ग)",
+      discountDetails: "पूर्ण नेटवर्क २४-तास अनिर्बंध दैनिक बस पास.",
+      mandatoryDocs: [],
+      optionalDocs: ["शासकीय ओळखपत्र (बसमध्ये तपासणीसाठी आवश्यक असल्यास)"],
+    },
+  },
+
+  "General Monthly Pass": {
+    en: {
+      name: "General Monthly Pass",
+      description: "Unlimited travel on all PMPML city routes within PMC and PCMC limits for 30 consecutive days.",
+      eligibility: "Regular commuters residing or working in the Pune/Pimpri-Chinchwad municipal limits.",
+      coveredArea: "PMC & PCMC Corporation Limits (All standard city bus lines)",
+      discountDetails: "Monthly commuter pass with unlimited daily trips.",
+      mandatoryDocs: [
+        "Government-issued photo ID (Aadhaar / Voter ID / Passport / Driving Licence)",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: ["Proof of residence (Electricity bill / Rental agreement)"],
+    },
+    hi: {
+      name: "सामान्य मासिक पास",
+      description: "30 दिनों के लिए पुणे और पिंपरी चिंचवड सीमा के भीतर सभी पीएमपीएमएल शहर मार्गों पर असीमित यात्रा।",
+      eligibility: "पुणे/पिंपरी-चिंचवड नगर निगम सीमा में निवास करने वाले अथवा कार्यरत दैनिक यात्री।",
+      coveredArea: "पुणे व पिंपरी चिंचवड नगर निगम सीमा (सभी नियमित बस मार्ग)",
+      discountDetails: "असीमित दैनिक यात्राओं वाला मासिक दैनिक यात्री पास।",
+      mandatoryDocs: [
+        "सरकारी फोटो पहचान पत्र (आधार कार्ड / मतदाता पहचान पत्र / पासपोर्ट / ड्राइविंग लाइसेंस)",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["निवास प्रमाण पत्र (बिजली बिल / किरायानामा)"],
+    },
+    mr: {
+      name: "सामान्य मासिक पास",
+      description: "३० दिवसांच्या कालावधीसाठी पुणे आणि पिंपरी चिंचवड हद्दीतील सर्व पीएमपीएमएल शहर मार्गांवर अमर्याद प्रवास.",
+      eligibility: "पुणे/पिंपरी-चिंचवड महानगरपालिका कार्यक्षेत्रात राहणारे किंवा नोकरी-व्यवसाय करणारे नियमित प्रवासी.",
+      coveredArea: "पुणे व पिंपरी चिंचवड महानगरपालिका हद्द (सर्व नियमित शहर बस मार्ग)",
+      discountDetails: "अमर्याद दैनिक फेऱ्यांसह मासिक प्रवासी पास.",
+      mandatoryDocs: [
+        "शासकीय फोटो ओळखपत्र (आधार कार्ड / मतदान ओळखपत्र / पासपोर्ट / वाहन परवाना)",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["रहिवासी पुरावा (लाइट बिल / भाडेकरार)"],
+    },
+  },
+
+  "Monthly Student Pass": {
+    en: {
+      name: "Monthly Student Pass",
+      description: "Concessional monthly bus pass for bonafide students studying in recognized schools, colleges, and institutes.",
+      eligibility: "Regular students of recognized schools, colleges, ITIs, or universities.",
+      coveredArea: "PMC & PCMC Limits (City student transit corridors)",
+      discountDetails: "Concessional student pass subsidized by municipal transport policy.",
+      mandatoryDocs: [
+        "Current school/college ID or valid bonafide certificate",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: [
+        "Proof of age (Birth certificate / School LC)",
+        "Current fee receipt",
+        "Verification signed by institution/parent/guardian"
+      ],
+    },
+    hi: {
+      name: "मासिक विद्यार्थी पास",
+      description: "मान्यता प्राप्त विद्यालयों, महाविद्यालयों एवं संस्थानों के नियमित विद्यार्थियों हेतु रियायती मासिक पास।",
+      eligibility: "मान्यता प्राप्त स्कूलों, कॉलेजों, आईटीआई या विश्वविद्यालयों के नियमित छात्र/छात्राएं।",
+      coveredArea: "पुणे व पिंपरी चिंचवड सीमा (विद्यार्थी शैक्षणिक मार्ग)",
+      discountDetails: "नगर निगम परिवहन नीति द्वारा रियायती छात्र पास।",
+      mandatoryDocs: [
+        "वर्तमान स्कूल/कॉलेज पहचान पत्र अथवा वैध बोनाफाइड प्रमाणपत्र",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["आयु प्रमाण", "वर्तमान शुल्क रसीद", "संस्थान/अभिभावक द्वारा हस्ताक्षरित सत्यापन"],
+    },
+    mr: {
+      name: "मासिक विद्यार्थी पास",
+      description: "मान्यताप्राप्त शाळा, महाविद्यालये व संस्थांमधील अधिकृत विद्यार्थ्यांसाठी सवलतीचा मासिक बस पास.",
+      eligibility: "मान्यताप्राप्त शाळा, कनिष्ठ/वरिष्ठ महाविद्यालये, आयटीआय किंवा विद्यापीठांमधील नियमित विद्यार्थी.",
+      coveredArea: "पुणे व पिंपरी चिंचवड मनपा हद्द (विद्यार्थी शैक्षणिक मार्ग)",
+      discountDetails: "महानगरपालिका धोरणानुसार सवलतीचा विद्यार्थी पास.",
+      mandatoryDocs: [
+        "चालू शैक्षणिक वर्षाचे ओळखपत्र किंवा बोनाफाइड प्रमाणपत्र",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["वयाचा पुरावा (जन्म दाखला / शाळा सोडल्याचा दाखला)", "चालू फी पावती", "शाळा/पालक स्वाक्षरी अर्ज"],
+    },
+  },
+
+  "Quarterly Student Pass": {
+    en: {
+      name: "Quarterly Student Pass",
+      description: "Concessional 3-month (90 days) bus pass for students covering regular academic semesters.",
+      eligibility: "Regular students of recognized schools, colleges, and educational institutes.",
+      coveredArea: "PMC & PCMC Limits (Quarterly academic term routes)",
+      discountDetails: "Quarterly term pass for academic students.",
+      mandatoryDocs: [
+        "Current school/college ID or valid bonafide certificate",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: ["Proof of age", "Current fee receipt", "Parent/Institution verification"],
+    },
+    hi: {
+      name: "त्रैमासिक विद्यार्थी पास",
+      description: "नियमित शैक्षणिक सत्र कवर करने हेतु 3 महीने (90 दिन) का रियायती विद्यार्थी बस पास।",
+      eligibility: "मान्यता प्राप्त विद्यालयों और महाविद्यालयों के नियमित छात्र।",
+      coveredArea: "पुणे व पिंपरी चिंचवड सीमा (त्रैमासिक शैक्षणिक गलियारे)",
+      discountDetails: "शैक्षणिक छात्रों हेतु 3 महीने का रियायती सत्र पास।",
+      mandatoryDocs: [
+        "वर्तमान स्कूल/कॉलेज पहचान पत्र या बोनाफाइड प्रमाणपत्र",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["आयु प्रमाण", "फीस रसीद", "संस्थान सत्यापन"],
+    },
+    mr: {
+      name: "त्रैमासिक विद्यार्थी पास",
+      description: "शैक्षणिक सत्रासाठी ३ महिने (९० दिवस) वैध असणारा सवलतीचा विद्यार्थी बस पास.",
+      eligibility: "मान्यताप्राप्त शाळा, महाविद्यालये व शैक्षणिक संस्थांमधील नियमित विद्यार्थी.",
+      coveredArea: "पुणे व पिंपरी चिंचवड मनपा हद्द (त्रैमासिक शैक्षणिक बस मार्ग)",
+      discountDetails: "विद्यार्थ्यांसाठी ३ महिन्यांचा सवलतीचा शैक्षणिक पास.",
+      mandatoryDocs: [
+        "चालू शैक्षणिक वर्षाचे ओळखपत्र किंवा बोनाफाइड प्रमाणपत्र",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["वयाचा पुरावा", "फी पावती", "शाळा/पालक स्वाक्षरी पडताळणी"],
+    },
+  },
+
+  "Half-Yearly Student Pass": {
+    en: {
+      name: "Half-Yearly Student Pass",
+      description: "Concessional 6-month (180 days) transit pass for students covering a complete academic term.",
+      eligibility: "Regular students of recognized educational institutions.",
+      coveredArea: "PMC & PCMC Limits (Semester academic routes)",
+      discountDetails: "Half-yearly semester pass with high student travel subsidy.",
+      mandatoryDocs: [
+        "Current school/college ID or valid bonafide certificate",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: ["Proof of age", "Current fee receipt", "Parent/Institution verification"],
+    },
+    hi: {
+      name: "छमाही विद्यार्थी पास",
+      description: "पूर्ण शैक्षणिक सत्र हेतु 6 महीने (180 दिन) का रियायती विद्यार्थी बस पास।",
+      eligibility: "मान्यता प्राप्त शैक्षणिक संस्थानों के नियमित छात्र।",
+      coveredArea: "पुणे व पिंपरी चिंचवड सीमा (छमाही शैक्षणिक मार्ग)",
+      discountDetails: "उच्च छात्र सब्सिडी युक्त छमाही सत्र पास।",
+      mandatoryDocs: [
+        "वर्तमान स्कूल/कॉलेज पहचान पत्र या बोनाफाइड प्रमाणपत्र",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["आयु प्रमाण", "शुल्क रसीद", "संस्थान सत्यापन"],
+    },
+    mr: {
+      name: "सहामाही विद्यार्थी पास",
+      description: "संपूर्ण शैक्षणिक सत्रासाठी ६ महिने (१८० दिवस) वैध सवलतीचा विद्यार्थी बस पास.",
+      eligibility: "मान्यताप्राप्त शैक्षणिक संस्थांमधील नियमित विद्यार्थी.",
+      coveredArea: "पुणे व पिंपरी चिंचवड मनपा हद्द (सहामाही शैक्षणिक मार्ग)",
+      discountDetails: "विद्यार्थी प्रवास सवलतीसह ६ महिन्यांचा सत्र पास.",
+      mandatoryDocs: [
+        "चालू शैक्षणिक वर्षाचे ओळखपत्र किंवा बोनाफाइड प्रमाणपत्र",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["वयाचा पुरावा", "फी पावती", "शाळा/पालक स्वाक्षरी पडताळणी"],
+    },
+  },
+
+  "Annual Student Pass": {
+    en: {
+      name: "Annual Student Pass",
+      description: "Comprehensive 1-year (365 days) unlimited transit pass for full-time students across the academic year.",
+      eligibility: "Full-time students enrolled in recognized educational institutions.",
+      coveredArea: "PMC & PCMC Limits (Full academic year corridors)",
+      discountDetails: "Full academic session annual pass with maximum student concession.",
+      mandatoryDocs: [
+        "Current school/college ID or valid bonafide certificate",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: ["Proof of age", "Current fee receipt", "Parent/Institution verification"],
+    },
+    hi: {
+      name: "वार्षिक विद्यार्थी पास",
+      description: "पूरे शैक्षणिक वर्ष (365 दिन) हेतु पूर्णकालिक छात्रों के लिए व्यापक असीमित बस पास।",
+      eligibility: "मान्यता प्राप्त शैक्षणिक संस्थानों में नामांकित पूर्णकालिक छात्र।",
+      coveredArea: "पुणे व पिंपरी चिंचवड सीमा (वार्षिक शैक्षणिक गलियारे)",
+      discountDetails: "अधिकतम छात्र रियायत के साथ पूर्ण शैक्षणिक वार्षिक पास।",
+      mandatoryDocs: [
+        "वर्तमान स्कूल/कॉलेज पहचान पत्र या बोनाफाइड प्रमाणपत्र",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["आयु प्रमाण", "शुल्क रसीद", "संस्थान सत्यापन"],
+    },
+    mr: {
+      name: "वार्षिक विद्यार्थी पास",
+      description: "संपूर्ण शैक्षणिक वर्षासाठी १ वर्ष (३६५ दिवस) अमर्याद प्रवासाचा सवलतीचा विद्यार्थी पास.",
+      eligibility: "मान्यताप्राप्त शैक्षणिक संस्थांमध्ये पूर्णवेळ शिकणारे विद्यार्थी.",
+      coveredArea: "पुणे व पिंपरी चिंचवड मनपा हद्द (वार्षिक शैक्षणिक बस मार्ग)",
+      discountDetails: "कमाल सवलतीसह पूर्ण शैक्षणिक वर्षाचा वार्षिक पास.",
+      mandatoryDocs: [
+        "चालू शैक्षणिक वर्षाचे ओळखपत्र किंवा बोनाफाइड प्रमाणपत्र",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["वयाचा पुरावा", "फी पावती", "शाळा/पालक स्वाक्षरी पडताळणी"],
+    },
+  },
+
+  "Student Punching Pass": {
+    en: {
+      name: "Student Punching Pass",
+      description: "Stage-based punching concession pass with applicable discount coupons based on commuting stages.",
+      eligibility: "Bonafide students commuting between fixed residence and educational institution stages.",
+      coveredArea: "Designated commuter route/stages between residence and educational institution",
+      discountDetails: "Applicable punching pass concession (variable discount based on stage count/coupon strip as per PMPML rules).",
+      mandatoryDocs: [
+        "Current school/college ID or valid bonafide certificate",
+        "Recent passport-size photograph"
+      ],
+      optionalDocs: ["Current fee receipt", "Application or verification signed by institution/parent/guardian"],
+    },
+    hi: {
+      name: "विद्यार्थी पंचिंग पास (कूपन पास)",
+      description: "यात्रा चरणों के आधार पर रियायती कूपन युक्त स्टेज-आधारित पंचिंग रियायत पास।",
+      eligibility: "निवास स्थान और शिक्षण संस्थान के मध्य निर्धारित चरणों में यात्रा करने वाले छात्र।",
+      coveredArea: "निवास स्थान एवं शिक्षण संस्थान के बीच निर्दिष्ट बस स्टॉप/चरण (Stages)",
+      discountDetails: "पीएमपीएमएल नियमानुसार चरण संख्या पर आधारित परिवर्तनीय पंचिंग रियायत।",
+      mandatoryDocs: [
+        "वर्तमान स्कूल/कॉलेज पहचान पत्र या बोनाफाइड प्रमाणपत्र",
+        "हालिया पासपोर्ट आकार का फोटो"
+      ],
+      optionalDocs: ["फीस रसीद", "संस्थान/अभिभावक सत्यापन"],
+    },
+    mr: {
+      name: "विद्यार्थी पंचिंग पास (कूपन पास)",
+      description: "प्रवासाच्या टप्प्यांवर आधारित सवलत कूपन असलेला टप्पा-आधारित पंचिंग विद्यार्थी पास.",
+      eligibility: "निवासस्थान व शाळा/महाविद्यालयादरम्यान निश्चित टप्प्यांवर प्रवास करणारे विद्यार्थी.",
+      coveredArea: "निवासस्थान व शैक्षणिक संस्थेमधील निश्चित बस टप्पे (Stages)",
+      discountDetails: "पीएमपीएमएल नियमांनुसार टप्प्यांच्या संख्येवर आधारित सवलत (पंचिंग कूपन सवलत).",
+      mandatoryDocs: [
+        "चालू शैक्षणिक वर्षाचे ओळखपत्र किंवा बोनाफाइड प्रमाणपत्र",
+        "नुकतेच काढलेले पासपोर्ट आकाराचे छायाचित्र"
+      ],
+      optionalDocs: ["चालू फी पावती", "शाळा/पालक स्वाक्षरी अर्ज"],
+    },
+  },
+
+  "Senior Citizen Monthly Pass": {
+    en: {
+      name: "Senior Citizen Monthly Pass",
+      description: "Concessional monthly pass for elderly citizens with special subsidized boarding across PMPML buses.",
+      eligibility: "Senior citizens aged 65 and above residing in PMC/PCMC/PMRDA jurisdictions.",
+      coveredArea: "All PMPML urban routes across PMC and PCMC",
+      discountDetails: "Fare confirmed upon verification of age and residency proof as per municipal concessional rules.",
+      mandatoryDocs: [
+        "Government-issued age/identity proof (Aadhaar / Voter ID / Senior Citizen Card)"
+      ],
+      optionalDocs: ["Recent passport-size photograph", "Completed application form"],
+    },
+    hi: {
+      name: "वरिष्ठ नागरिक मासिक पास",
+      description: "वरिष्ठ नागरिकों हेतु विशेष रियायती मासिक पास, पुणे महानगर बस सेवा में मान्य।",
+      eligibility: "पुणे/पिंपरी-चिंचवड/PMRDA क्षेत्र के 65 वर्ष और उससे अधिक आयु के वरिष्ठ नागरिक।",
+      coveredArea: "पुणे और पिंपरी चिंचवड के सभी पीएमपीएमएल शहरी बस मार्ग",
+      discountDetails: "नगर निगम नियमों के अनुसार आयु और निवास सत्यापन पर रियायती किराया निर्धारित।",
+      mandatoryDocs: [
+        "सरकारी आयु/पहचान प्रमाण पत्र (आधार / मतदाता पहचान पत्र / वरिष्ठ नागरिक कार्ड)"
+      ],
+      optionalDocs: ["पासपोर्ट आकार का फोटो", "भरा हुआ आवेदन पत्र"],
+    },
+    mr: {
+      name: "ज्येष्ठ नागरिक मासिक पास",
+      description: "६५ वर्षे व त्याहून अधिक वयाच्या ज्येष्ठ नागरिकांसाठी विशेष सवलतीचा मासिक बस पास.",
+      eligibility: "पुणे, पिंपरी-चिंचवड किंवा पीएमआरडीए कार्यक्षेत्रातील ६५ वर्षे व त्यावरील ज्येष्ठ नागरिक.",
+      coveredArea: "पुणे व पिंपरी चिंचवडमधील सर्व पीएमपीएमएल शहर बस मार्ग",
+      discountDetails: "महानगरपालिका नियमांनुसार वय व रहिवासी पडताळणीनंतर सवलतीचे भाडे लागू.",
+      mandatoryDocs: [
+        "शासकीय वय/ओळख पुरावा (आधार कार्ड / मतदान ओळखपत्र / ज्येष्ठ नागरिक ओळखपत्र)"
+      ],
+      optionalDocs: ["पासपोर्ट आकाराचे छायाचित्र", "स्वाक्षरी केलेला अर्ज"],
+    },
+  },
+
+  "Senior Citizen Daily/Concessional Pass": {
+    en: {
+      name: "Senior Citizen Daily/Concessional Pass",
+      description: "Concessional single-day transit pass for senior citizens with verified age proof.",
+      eligibility: "Senior citizens aged 65 and above with valid government age proof.",
+      coveredArea: "All PMPML urban routes across PMC and PCMC",
+      discountDetails: "Discounted single-day fare determined per municipal resolution upon proof verification.",
+      mandatoryDocs: ["Government-issued age/identity proof"],
+      optionalDocs: ["Senior citizen identity card"],
+    },
+    hi: {
+      name: "वरिष्ठ नागरिक दैनिक/रियायती पास",
+      description: "सत्यापित आयु प्रमाण वाले वरिष्ठ नागरिकों के लिए एकल-दिवसीय रियायती बस पास।",
+      eligibility: "वैध सरकारी आयु प्रमाण वाले 65 वर्ष या उससे अधिक आयु के वरिष्ठ नागरिक।",
+      coveredArea: "पुणे और पिंपरी चिंचवड के सभी पीएमपीएमएल शहरी मार्ग",
+      discountDetails: "प्रमाण सत्यापन पर नगर निगम संकल्प अनुसार रियायती एक-दिवसीय किराया।",
+      mandatoryDocs: ["सरकारी आयु/पहचान प्रमाण पत्र"],
+      optionalDocs: ["वरिष्ठ नागरिक पहचान पत्र"],
+    },
+    mr: {
+      name: "ज्येष्ठ नागरिक दैनिक/सवलत पास",
+      description: "वैध वयाचा पुरावा असलेल्या ज्येष्ठ नागरिकांसाठी एक दिवसाचा सवलतीचा बस पास.",
+      eligibility: "शासकीय वयाचा वैध पुरावा असलेले ६५ वर्षे व त्यावरील ज्येष्ठ नागरिक.",
+      coveredArea: "पुणे व पिंपरी चिंचवडमधील सर्व पीएमपीएमएल शहर मार्ग",
+      discountDetails: "पडताळणीनंतर महानगरपालिका ठरावानुसार सवलतीचे एक दिवसीय भाडे लागू.",
+      mandatoryDocs: ["शासकीय वय/ओळख पुरावा"],
+      optionalDocs: ["ज्येष्ठ नागरिक ओळखपत्र"],
+    },
+  },
+
+  "Person with Disability Pass": {
+    en: {
+      name: "Person with Disability Pass",
+      description: "Concessional transit pass for individuals with certified benchmark disability.",
+      eligibility: "Persons with benchmark physical disability (40% and above) certified by competent medical authority.",
+      coveredArea: "Entire PMPML network (All city & suburban routes)",
+      discountDetails: "Subsidized / 100% concession as per Municipal Corporation social welfare policy.",
+      mandatoryDocs: [
+        "Government-issued identity proof",
+        "Applicable disability certificate (Civil Surgeon / UDID Card showing 40%+ disability)"
+      ],
+      optionalDocs: ["Passport size photograph"],
+    },
+    hi: {
+      name: "दिव्यांगजन रियायती पास",
+      description: "सक्षम चिकित्सा प्राधिकरण द्वारा प्रमाणित दिव्यांग व्यक्तियों हेतु रियायती बस पास।",
+      eligibility: "सक्षम चिकित्सा बोर्ड द्वारा प्रमाणित 40% या अधिक दिव्यांगता वाले व्यक्ति।",
+      coveredArea: "संपूर्ण पीएमपीएमएल नेटवर्क (सभी शहरी व उपनगरीय मार्ग)",
+      discountDetails: "नगर निगम समाज कल्याण नीति के अनुसार रियायती अथवा 100% निःशुल्क यात्रा।",
+      mandatoryDocs: [
+        "सरकारी पहचान पत्र",
+        "मान्य दिव्यांगता प्रमाण पत्र (सिविल सर्जन / UDID कार्ड - 40%+)"
+      ],
+      optionalDocs: ["पासपोर्ट आकार का फोटो"],
+    },
+    mr: {
+      name: "दिव्यांग व्यक्ती सवलत पास",
+      description: "सक्षम वैद्यकीय प्राधिकरणाने प्रमाणित केलेल्या दिव्यांग व्यक्तींसाठी सवलतीचा बस पास.",
+      eligibility: "सक्षम वैद्यकीय मंडळाचे ४०% किंवा त्याहून अधिक दिव्यांगत्वाचे प्रमाणपत्र असणाऱ्या व्यक्ती.",
+      coveredArea: "संपूर्ण पीएमपीएमएल जाळे (सर्व शहर व उपनगरीय बस मार्ग)",
+      discountDetails: "महानगरपालिका समाजकल्याण धोरणानुसार सवलतीचा / १००% मोफत प्रवास.",
+      mandatoryDocs: [
+        "शासकीय ओळखपत्र",
+        "अधिकृत दिव्यांग प्रमाणपत्र (सिव्हिल सर्जन / UDID कार्ड - ४०% किंवा अधिक)"
+      ],
+      optionalDocs: ["पासपोर्ट आकाराचे छायाचित्र"],
+    },
+  },
+
+  "Visually Impaired Passenger Pass": {
+    en: {
+      name: "Visually Impaired Passenger Pass",
+      description: "Concessional / free travel pass for visually impaired individuals and certified escort.",
+      eligibility: "Individuals with certified benchmark visual impairment with valid medical board certificate.",
+      coveredArea: "Entire PMPML network (Commuter & certified escort)",
+      discountDetails: "Full travel concession / free travel as per government and PMPML guidelines.",
+      mandatoryDocs: [
+        "Government-issued identity proof",
+        "Applicable visual impairment medical certificate / UDID Card"
+      ],
+      optionalDocs: ["Photograph", "Escort identification proof"],
+    },
+    hi: {
+      name: "दृष्टिबाधित यात्री पास",
+      description: "दृष्टिबाधित व्यक्तियों एवं प्रमाणित सहायक हेतु निःशुल्क/रियायती बस पास।",
+      eligibility: "वैध मेडिकल बोर्ड प्रमाण पत्र वाले दृष्टिबाधित नागरिक।",
+      coveredArea: "संपूर्ण पीएमपीएमएल नेटवर्क (यात्री एवं प्रमाणित सहायक)",
+      discountDetails: "सरकारी एवं पीएमपीएमएल दिशानिर्देशों अनुसार पूर्ण यात्रा रियायत / निःशुल्क यात्रा।",
+      mandatoryDocs: [
+        "सरकारी पहचान पत्र",
+        "दृष्टिबाधकता मेडिकल प्रमाण पत्र अथवा UDID कार्ड"
+      ],
+      optionalDocs: ["फोटो", "सहायक पहचान पत्र"],
+    },
+    mr: {
+      name: "दृष्टीबाधित प्रवासी पास",
+      description: "दृष्टीबाधित व्यक्ती व प्रमाणित मदतनीस (Escort) यांच्यासाठी मोफत/सवलतीचा बस पास.",
+      eligibility: "वैद्यकीय मंडळाचे वैध दृष्टीबाधकता प्रमाणपत्र असणारे नागरिक.",
+      coveredArea: "संपूर्ण पीएमपीएमएल जाळे (प्रवासी व प्रमाणित मदतनीस)",
+      discountDetails: "शासन व पीएमपीएमएल नियमांनुसार पूर्ण सवलत / मोफत प्रवास.",
+      mandatoryDocs: [
+        "शासकीय ओळखपत्र",
+        "वैद्यकीय दृष्टीबाधकता प्रमाणपत्र किंवा UDID कार्ड"
+      ],
+      optionalDocs: ["छायाचित्र", "मदतनीस ओळख पुरावा"],
+    },
+  },
+
+  "Journalist/Reporter Pass": {
+    en: {
+      name: "Journalist/Reporter Pass",
+      description: "Concessional transit pass for accredited media representatives and field journalists.",
+      eligibility: "Accredited journalists, press photographers, and field reporters recognized by DGIPR / State Government.",
+      coveredArea: "Entire PMPML network (PMC, PCMC & PMRDA extended limits)",
+      discountDetails: "Concessional media boarding privileges as per government media pass quota.",
+      mandatoryDocs: [
+        "Government-issued identity proof",
+        "Valid press accreditation card issued by DGIPR / recognized press authority"
+      ],
+      optionalDocs: ["Editor / Media house authorization letter"],
+    },
+    hi: {
+      name: "पत्रकार / संवाददाता पास",
+      description: "मान्यता प्राप्त मीडिया प्रतिनिधियों एवं फील्ड पत्रकारों हेतु रियायती बस पास।",
+      eligibility: "डीजीआईपीआर अथवा राज्य सरकार द्वारा मान्यता प्राप्त पत्रकार और प्रेस फोटोग्राफर।",
+      coveredArea: "संपूर्ण पीएमपीएमएल नेटवर्क (पुणे, पिंपरी-चिंचवड व पीएमआरडीए सीमा)",
+      discountDetails: "सरकारी मीडिया कोटा नियमों के अनुसार रियायती यात्रा सुविधा।",
+      mandatoryDocs: [
+        "सरकारी पहचान पत्र",
+        "मान्य प्रेस मान्यता कार्ड (DGIPR / अधिकृत प्रेस पहचान)"
+      ],
+      optionalDocs: ["संपादक / मीडिया हाउस अधिकृत पत्र"],
+    },
+    mr: {
+      name: "पत्रकार / वार्ताहर पास",
+      description: "मान्यताप्राप्त प्रसारमाध्यम प्रतिनिधी व क्षेत्र वार्ताहरांसाठी सवलतीचा बस पास.",
+      eligibility: "माहिती व जनसंपर्क महासंचालनालय (DGIPR) किंवा शासनाकडून अधिस्वीकृतीप्राप्त पत्रकार.",
+      coveredArea: "संपूर्ण पीएमपीएमएल जाळे (पुणे, पिंपरी-चिंचवड व पीएमआरडीए हद्द)",
+      discountDetails: "शासकीय पत्रकार कोटा नियमांनुसार सवलतीचा प्रवास.",
+      mandatoryDocs: [
+        "शासकीय ओळखपत्र",
+        "वैध पत्रकार अधिस्वीकृती कार्ड (DGIPR / अधिकृत प्रेस कार्ड)"
+      ],
+      optionalDocs: ["संपादकीय शिफारस पत्र"],
+    },
+  },
+
+  "Freedom Fighter Pass": {
+    en: {
+      name: "Freedom Fighter Pass",
+      description: "Honorary free transit pass for recognized freedom fighters and eligible surviving spouses.",
+      eligibility: "Recognized Freedom Fighters holding central/state government pension sanad or identity authorization.",
+      coveredArea: "Entire PMPML network (100% honorary free travel across all routes)",
+      discountDetails: "100% honorary fare waiver provided under civic honors.",
+      mandatoryDocs: [
+        "Government-issued identity proof",
+        "Official Freedom Fighter Pension Sanad / State authorization certificate"
+      ],
+      optionalDocs: ["Spouse identity proof (if applicable)"],
+    },
+    hi: {
+      name: "स्वतंत्रता सेनानी सम्मान पास",
+      description: "मान्यता प्राप्त स्वतंत्रता सेनानियों एवं उनके पात्र जीवनसाथी हेतु 100% निःशुल्क सम्मान पास।",
+      eligibility: "केंद्र अथवा राज्य सरकार की पेंशन सनद धारक स्वतंत्रता सेनानी।",
+      coveredArea: "संपूर्ण पीएमपीएमएल नेटवर्क (सभी मार्गों पर 100% निःशुल्क सम्मान यात्रा)",
+      discountDetails: "नागरिक सम्मान के अंतर्गत 100% मानद निःशुल्क यात्रा।",
+      mandatoryDocs: [
+        "सरकारी पहचान पत्र",
+        "आधिकारिक स्वतंत्रता सेनानी पेंशन सनद / प्रमाण पत्र"
+      ],
+      optionalDocs: ["जीवनसाथी पहचान पत्र"],
+    },
+    mr: {
+      name: "स्वातंत्र्य सैनिक सन्मान पास",
+      description: "मान्यताप्राप्त स्वातंत्र्य सैनिक व त्यांच्या पात्र जोडीदारासाठी १००% मोफत सन्मान पास.",
+      eligibility: "केंद्र किंवा राज्य शासनाची पेन्शन सनद असणारे अधिकृत स्वातंत्र्य सैनिक.",
+      coveredArea: "संपूर्ण पीएमपीएमएल जाळे (सर्व मार्गांवर १००% सन्मानपूर्वक मोफत प्रवास)",
+      discountDetails: "नागरी सन्मानांतर्गत १००% मानद मोफत प्रवास.",
+      mandatoryDocs: [
+        "शासकीय ओळखपत्र",
+        "स्वातंत्र्य सैनिक पेन्शन सनद / अधिकृत शासन प्रमाणपत्र"
+      ],
+      optionalDocs: ["जोडीदाराचा ओळख पुरावा"],
+    },
+  },
+};
+
+/**
+ * Returns localized pass information (name, description, eligibility, coveredArea, docs)
+ * based on the active language ('en', 'hi', 'mr').
+ */
+export function getLocalizedPassInfo(category, lang = 'en') {
+  if (!category) return null;
+  const match = passCatalogTranslations[category.name];
+  if (!match) {
+    return {
+      ...category,
+      coveredArea: category.coveredArea || 'PMPML Corporation Network Routes',
+    };
+  }
+
+  const localized = match[lang] || match['en'] || {};
+  return {
+    ...category,
+    name: localized.name || category.name,
+    description: localized.description || category.description,
+    eligibility: localized.eligibility || category.eligibility,
+    coveredArea: localized.coveredArea || 'PMPML Corporation Network Routes',
+    discountDetails: localized.discountDetails || category.discountDetails,
+    mandatoryDocumentList: localized.mandatoryDocs || category.mandatoryDocumentList,
+    optionalDocumentList: localized.optionalDocs || category.optionalDocumentList,
+  };
+}
+
