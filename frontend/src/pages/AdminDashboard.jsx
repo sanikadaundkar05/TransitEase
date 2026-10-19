@@ -317,7 +317,7 @@ export function AdminDashboard() {
               className={`sidebar-nav-item ${activeTab === 'reports' ? 'active' : ''}`}
               onClick={() => setActiveTab('reports')}
             >
-              <span className="nav-icon">📊</span> {t('tabReports', 'Overview & Reports')}
+              <span className="nav-icon"></span> {t('tabReports', 'Overview & Reports')}
             </button>
           </li>
           <li>
@@ -326,7 +326,7 @@ export function AdminDashboard() {
               className={`sidebar-nav-item ${activeTab === 'users' ? 'active' : ''}`}
               onClick={() => setActiveTab('users')}
             >
-              <span className="nav-icon">👥</span> {t('tabStaff', 'Staff & Users')}
+              <span className="nav-icon"></span> {t('tabStaff', 'Staff & Users')}
             </button>
           </li>
           <li>
@@ -335,7 +335,7 @@ export function AdminDashboard() {
               className={`sidebar-nav-item ${activeTab === 'routes' ? 'active' : ''}`}
               onClick={() => setActiveTab('routes')}
             >
-              <span className="nav-icon">🗺️</span> {t('tabRouteMgmt', 'Route Management')}
+              <span className="nav-icon"></span> {t('tabRouteMgmt', 'Route Management')}
             </button>
           </li>
           <li>
@@ -344,7 +344,7 @@ export function AdminDashboard() {
               className={`sidebar-nav-item ${activeTab === 'categories' ? 'active' : ''}`}
               onClick={() => setActiveTab('categories')}
             >
-              <span className="nav-icon">🏷️</span> {t('tabCategoryMgmt', 'Pass Categories')}
+              <span className="nav-icon"></span> {t('tabCategoryMgmt', 'Pass Categories')}
             </button>
           </li>
         </ul>
@@ -368,7 +368,7 @@ export function AdminDashboard() {
                 className="btn btn-sm btn-outline"
                 onClick={() => loadTabData('reports')}
               >
-                🔄 {t('refresh', 'Refresh Reports')}
+                 {t('refresh', 'Refresh Reports')}
               </button>
             </div>
 
@@ -521,7 +521,7 @@ export function AdminDashboard() {
               <Loading message="Loading users..." />
             ) : users.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">👥</span>
+                <span className="empty-icon"></span>
                 <p>No users found matching the filter.</p>
               </div>
             ) : (
@@ -602,7 +602,7 @@ export function AdminDashboard() {
               <Loading message="Loading routes..." />
             ) : routes.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">🚌</span>
+                <span className="empty-icon"></span>
                 <p>No transit routes exist yet.</p>
               </div>
             ) : (
@@ -682,7 +682,7 @@ export function AdminDashboard() {
               <Loading message="Loading categories..." />
             ) : categories.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">🏷️</span>
+                <span className="empty-icon"></span>
                 <p>No pass categories configured.</p>
               </div>
             ) : (

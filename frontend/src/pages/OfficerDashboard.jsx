@@ -9,13 +9,12 @@ import { isVerificationOfficer, isApprovalOfficer, isAdmin } from '../utils/role
 
 export function OfficerDashboard() {
   const { user } = useAuth();
-  const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('applications'); // 'applications' | 'passes'
+  const { language, t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('applications'); // 'applications' | 'review'
   const [statusFilter, setStatusFilter] = useState('ALL');
 
   // Data states
   const [applications, setApplications] = useState([]);
-  const [passes, setPasses] = useState([]);
 
   // Async UI states
   const [loading, setLoading] = useState(false);
@@ -50,8 +49,8 @@ export function OfficerDashboard() {
         const data = await api.passApplications.getAll();
         setApplications(data || []);
       } else if (activeTab === 'passes') {
-        const data = await api.digitalPasses.getAll();
-        setPasses(data || []);
+        const data = await api.passApplications.getAll();
+        setApplications(data || []);
       }
     } catch (err) {
       setError(err.message || 'Failed to fetch data.');
@@ -65,12 +64,54 @@ export function OfficerDashboard() {
     if (statusFilter === 'ALL') return true;
     return app.status === statusFilter;
   });
+  const pendingReviewApplications = applications.filter((app) => app.status === 'PENDING');
+
+  const todayKey = new Date().toLocaleDateString('en-CA');
+  const monthKey = todayKey.slice(0, 7);
+  const applicationsSubmittedToday = applications.filter((app) =>
+    app.applicationDate?.slice(0, 10) === todayKey
+  ).length;
+  const verifiedToday = applications.filter((app) =>
+    app.status === 'VERIFIED' && app.applicationDate?.slice(0, 10) === todayKey
+  ).length;
+  const rejectedThisMonth = applications.filter((app) =>
+    app.status === 'REJECTED' && app.applicationDate?.slice(0, 7) === monthKey
+  ).length;
+  const correctionRequired = applications.filter((app) =>
+    app.status === 'REJECTED' && app.remarks?.toLowerCase().includes('document')
+  ).length;
+
+  function formatDashboardDate() {
+    return new Intl.DateTimeFormat(language === 'hi' ? 'hi-IN' : 'en-IN', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }).format(new Date());
+  }
+
+  function getDocumentSummary(app) {
+    if (app.documentCount !== undefined && app.requiredDocumentCount !== undefined) {
+      return `${app.documentCount} / ${app.requiredDocumentCount}`;
+    }
+    return app.documentUrl ? '1 / 1' : '0 / 0';
+  }
+
+  function formatValidity(app) {
+    return app.validityDays ? `${app.validityDays} ${t('days', 'days')}` : t('notAvailable', 'N/A');
+  }
 
   // Open action modal for status update
   function openActionModal(app, newStatus) {
     setSelectedApp(app);
     setTargetStatus(newStatus);
     setRemarks('');
+  }
+
+  function openReviewAction(app, newStatus) {
+    setDocModalApp(null);
+    setSelectedApp(app);
+    setTargetStatus(newStatus);
   }
 
   async function handleStatusSubmit(e) {
@@ -135,6 +176,31 @@ export function OfficerDashboard() {
     }
   }
 
+  async function handleDocumentStatusChange(doc, nextStatus) {
+    if (nextStatus === 'REJECTED') {
+      setDocRejectPromptId(doc.id);
+      setDocRejectRemarks('');
+      return;
+    }
+    if (nextStatus === 'VERIFIED') {
+      await handleVerifyIndividualDoc(doc.id);
+      return;
+    }
+    if (nextStatus === 'PENDING') {
+      setDocLoading(true);
+      setError(null);
+      try {
+        await api.documents.updateStatus(doc.id, 'PENDING', null);
+        const docs = await api.passApplications.getDocuments(docModalApp.id);
+        setDocList(docs || []);
+      } catch (err) {
+        setError(err.message || 'Failed to update document status.');
+      } finally {
+        setDocLoading(false);
+      }
+    }
+  }
+
   async function handleRejectIndividualDoc(docId) {
     if (!docRejectRemarks.trim()) {
       setError('Please provide rejection remarks for this document.');
@@ -167,14 +233,6 @@ export function OfficerDashboard() {
       await api.passApplications.downloadDocument(docId, fileName);
     } catch (err) {
       setError(err.message || 'Failed to download document.');
-    }
-  }
-
-  async function handleDownloadPassPdf(passId, passNumber) {
-    try {
-      await api.digitalPasses.downloadPdf(passId, `transit-pass-${passNumber}.pdf`);
-    } catch (err) {
-      setError(err.message || 'Failed to download pass PDF.');
     }
   }
 
@@ -213,7 +271,7 @@ export function OfficerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'applications' ? 'active' : ''}`}
               onClick={() => setActiveTab('applications')}
             >
-              <span className="nav-icon">📋</span> {t('officerQueueTitle', 'Applications Queue')}
+              <span className="nav-icon"></span> {t('verificationsTitle', 'Verifications')}
             </button>
           </li>
           <li>
@@ -222,7 +280,7 @@ export function OfficerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'passes' ? 'active' : ''}`}
               onClick={() => setActiveTab('passes')}
             >
-              <span className="nav-icon">🎫</span> {t('myPassesTitle', 'Digital Passes')}
+              <span className="nav-icon"></span> {t('reviewApplicationsTitle', 'Review application')}
             </button>
           </li>
         </ul>
@@ -233,20 +291,51 @@ export function OfficerDashboard() {
         {error && <Alert type="error" message={error} onClose={() => setError(null)} />}
         {success && <Alert type="success" message={success} onClose={() => setSuccess(null)} />}
 
-        {/* --- TAB: APPLICATIONS QUEUE --- */}
+        {/* --- TAB: VERIFICATION DASHBOARD --- */}
         {activeTab === 'applications' && (
           <section className="section-container">
             <div className="section-header">
               <div>
-                <h2>{t('officerQueueTitle', 'Pass Applications Queue')}</h2>
-                <p className="text-muted">
-                  {t(
-                    'officerQueueSubtitle',
-                    'Workflow enforcement: PENDING ➔ VERIFIED ➔ APPROVED or REJECTED.'
-                  )}
-                </p>
+                <div className="dashboard-date">{formatDashboardDate()}</div>
+                <h2>{t('verificationDashboardTitle', 'Dashboard')}</h2>
               </div>
-              <div className="filter-group">
+              <div className="last-synced">{t('lastSynced', 'Last synced just now')}</div>
+            </div>
+
+            <div className="verification-kpis">
+              <div className="verification-kpi verification-kpi-pending">
+                <span className="verification-kpi-icon">◷</span>
+                <strong>{applications.filter((app) => app.status === 'PENDING').length}</strong>
+                <b>{t('awaitingVerification', 'Awaiting verification')}</b>
+                <small>{applicationsSubmittedToday} {t('submittedToday', 'submitted today')}</small>
+              </div>
+              <div className="verification-kpi verification-kpi-correction">
+                <span className="verification-kpi-icon">▤</span>
+                <strong>{correctionRequired}</strong>
+                <b>{t('correctionRequired', 'Correction required')}</b>
+                <small>{t('needApplicantAction', 'Need applicant action')}</small>
+              </div>
+              <div className="verification-kpi verification-kpi-verified">
+                <span className="verification-kpi-icon">✓</span>
+                <strong>{verifiedToday}</strong>
+                <b>{t('verifiedToday', 'Verified today')}</b>
+                <small>{t('readyForApproval', 'Ready for approval')}</small>
+              </div>
+              <div className="verification-kpi verification-kpi-rejected">
+                <span className="verification-kpi-icon">×</span>
+                <strong>{rejectedThisMonth}</strong>
+                <b>{t('rejectedAtVerification', 'Rejected at verification')}</b>
+                <small>{t('thisMonth', 'This month')}</small>
+              </div>
+            </div>
+
+            <div className="verification-queue">
+              <div className="verification-queue-header">
+                <div>
+                  <h3>{t('verificationQueueTitle', 'Verification Queue')}</h3>
+                  <p className="text-muted">{t('verificationQueueSubtitle', 'Applications waiting for document review')}</p>
+                </div>
+                <div className="filter-group">
                 <label htmlFor="status-filter">{t('filterStatus', 'Status:')}</label>
                 <select
                   id="status-filter"
@@ -273,33 +362,30 @@ export function OfficerDashboard() {
                   className="btn btn-sm btn-outline"
                   onClick={loadData}
                 >
-                  🔄 {t('refresh', 'Refresh')}
+                   {t('refresh', 'Refresh')}
                 </button>
+                </div>
               </div>
-            </div>
 
-            {loading ? (
-              <Loading message={t('loading', 'Loading application queue...')} />
-            ) : filteredApps.length === 0 ? (
-              <div className="empty-state">
-                <span className="empty-icon">📂</span>
-                <h3>{t('noApplicationsFound', 'No applications found')}</h3>
-                <p>No applications match the current filter criteria.</p>
-              </div>
-            ) : (
-              <div className="table-responsive">
-                <table className="data-table">
+              {loading ? (
+                <Loading message={t('loading', 'Loading application queue...')} />
+              ) : filteredApps.length === 0 ? (
+                <div className="empty-state">
+                  <span className="empty-icon"></span>
+                  <h3>{t('noApplicationsFound', 'No applications found')}</h3>
+                  <p>No applications match the current filter criteria.</p>
+                </div>
+              ) : (
+                <div className="table-responsive verification-queue-table">
+                  <table className="data-table">
                   <thead>
                     <tr>
-                      <th>{t('appId', 'App ID')}</th>
-                      <th>{t('applicant', 'Passenger')}</th>
-                      <th>{t('category', 'Pass Category')}</th>
-                      <th>{t('type', 'Type')}</th>
-                      <th>{t('submittedDate', 'Submitted Date')}</th>
-                      <th>{t('status', 'Status')}</th>
-                      <th>{t('remarks', 'Remarks')}</th>
+                      <th>{t('applicationColumn', 'Application')}</th>
+                      <th>{t('applicantColumn', 'Applicant')}</th>
+                      <th>{t('category', 'Category')}</th>
+                      <th>{t('submittedColumn', 'Submitted')}</th>
                       <th>{t('documents', 'Documents')}</th>
-                      <th>{t('actions', 'Actions')}</th>
+                      <th>{t('actionColumn', 'Action')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -318,33 +404,11 @@ export function OfficerDashboard() {
                           )}
                         </td>
                         <td>{app.passCategoryName}</td>
-                        <td>
-                          {app.isRenewal ? (
-                            <span className="badge badge-info">Renewal</span>
-                          ) : (
-                            <span className="badge badge-outline">New</span>
-                          )}
-                        </td>
                         <td>{app.applicationDate ? formatDateIN(app.applicationDate) : 'N/A'}</td>
+                        <td>
+                          <span className="document-count">{getDocumentSummary(app)}</span>
+                        </td>
                         <td>{getStatusBadge(app.status, app.remarks)}</td>
-                        <td>
-                          {app.remarks ? (
-                            <span className={app.status === 'REJECTED' ? 'text-danger font-semibold' : 'remarks-text'}>
-                              {app.remarks}
-                            </span>
-                          ) : (
-                            <span className="text-muted">—</span>
-                          )}
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-xs btn-outline"
-                            onClick={() => openDocViewer(app)}
-                          >
-                            📎 {t('viewDocs', 'Review Application & Docs')}
-                          </button>
-                        </td>
                         <td>
                           <div className="action-buttons-group">
                             {/* Verification Workflow: PENDING -> VERIFY */}
@@ -396,67 +460,69 @@ export function OfficerDashboard() {
                       </tr>
                     ))}
                   </tbody>
-                </table>
-              </div>
-            )}
+                  </table>
+                </div>
+              )}
+            </div>
           </section>
         )}
 
-        {/* --- TAB: DIGITAL PASSES --- */}
+        {/* --- TAB: REVIEW APPLICATIONS --- */}
         {activeTab === 'passes' && (
           <section className="section-container">
             <div className="section-header">
               <div>
-                <h2>{t('activeDigitalPasses', 'Active Digital Passes')}</h2>
-                <p className="text-muted">Overview of all generated digital transit passes across passengers.</p>
+                <h2>{t('reviewApplicationsTitle', 'Review application')}</h2>
+                <p className="text-muted">{t('reviewApplicationsSubtitle', 'Review submitted applications and their supporting documents.')}</p>
               </div>
               <button
                 type="button"
                 className="btn btn-sm btn-outline"
                 onClick={loadData}
               >
-                🔄 {t('refresh', 'Refresh')}
+                 {t('refresh', 'Refresh')}
               </button>
             </div>
 
             {loading ? (
-              <Loading message={t('loading', 'Loading digital passes...')} />
-            ) : passes.length === 0 ? (
+              <Loading message={t('loading', 'Loading applications...')} />
+            ) : pendingReviewApplications.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">💳</span>
-                <h3>{t('noPassesFound', 'No digital passes issued')}</h3>
-                <p>Passes are automatically generated upon application approval.</p>
+                <span className="empty-icon"></span>
+                <h3>{t('noPendingApplications', 'No pending applications')}</h3>
+                <p>{t('noPendingApplicationsDesc', 'There are no pending applications available for review.')}</p>
               </div>
             ) : (
               <div className="table-responsive">
                 <table className="data-table">
                   <thead>
                     <tr>
-                      <th>{t('passNumber', 'Pass Number')}</th>
-                      <th>{t('holder', 'Commuter')}</th>
+                      <th>{t('applicationColumn', 'Application')}</th>
+                      <th>{t('applicantColumn', 'Applicant')}</th>
                       <th>{t('category', 'Category')}</th>
-                      <th>{t('validFrom', 'Valid From')}</th>
-                      <th>{t('expiresOn', 'Expires On')}</th>
-                      <th>{t('status', 'Status')}</th>
-                      <th>{t('actions', 'Actions')}</th>
+                      <th>{t('submittedColumn', 'Submitted')}</th>
+                      <th>{t('documents', 'Documents')}</th>
+                      <th>{t('actionColumn', 'Action')}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {passes.map((pass) => (
-                      <tr key={pass.id}>
-                        <td><strong>{pass.passNumber}</strong></td>
-                        <td>{pass.passengerName}</td>
-                        <td>{pass.passCategoryName}</td>
-                        <td>{pass.validityStartDate ? formatDateIN(pass.validityStartDate) : 'N/A'}</td>
-                        <td>{pass.validityEndDate ? formatDateIN(pass.validityEndDate) : 'N/A'}</td>
-                        <td>{getStatusBadge(pass.status)}</td>
+                    {pendingReviewApplications.map((app) => (
+                      <tr key={app.id}>
+                        <td><strong>APP-{app.id}</strong></td>
+                        <td>
+                          <div className="font-semibold">{app.fullName || app.passengerName}</div>
+                          <small className="text-muted">{app.passengerCategory || 'GENERAL'}</small>
+                        </td>
+                        <td>{app.passCategoryName}</td>
+                        <td>{app.applicationDate ? formatDateIN(app.applicationDate) : 'N/A'}</td>
+                        <td><span className="document-count">{getDocumentSummary(app)}</span></td>
                         <td>
                           <button
                             type="button"
                             className="btn btn-xs btn-outline"
-                            onClick={() => handleDownloadPassPdf(pass.id, pass.passNumber)}
+                            onClick={() => openDocViewer(app)}
                           >
-                            📥 {t('downloadPdf', 'PDF')}
+                             {t('review', 'Review')}
                           </button>
                         </td>
                       </tr>
@@ -500,7 +566,7 @@ export function OfficerDashboard() {
               <div className="modal-body">
                 {/* Passenger Eligibility Summary for Officer Verification */}
                 <div className="review-panel" style={{ marginBottom: '1rem' }}>
-                  <div className="review-panel-title">👤 Passenger & Eligibility Details</div>
+                  <div className="review-panel-title"> Passenger & Eligibility Details</div>
                   <div className="review-data-list">
                     <div className="review-data-row">
                       <span className="review-data-label">Full Name:</span>
@@ -618,10 +684,11 @@ export function OfficerDashboard() {
             <div className="modal-header">
               <div>
                 <h3 className="modal-title">
-                  Review Application #{docModalApp.id} — {docModalApp.passCategoryName}
+                  {t('reviewApplicationsTitle', 'Review application')}
+                  <span className="review-modal-status">{getStatusBadge(docModalApp.status, docModalApp.remarks)}</span>
                 </h3>
                 <span className="text-muted text-xs">
-                  Submitted: {formatDateIN(docModalApp.applicationDate)} • Current Status: {getStatusBadge(docModalApp.status, docModalApp.remarks)}
+                  APP-{docModalApp.id} • {t('submittedColumn', 'Submitted')}: {formatDateIN(docModalApp.applicationDate)}
                 </span>
               </div>
               <button
@@ -638,61 +705,35 @@ export function OfficerDashboard() {
                 <Loading message={t('loading', 'Loading application & documents...')} />
               ) : (
                 <>
-                  {/* Passenger Details Panel */}
-                  <div className="review-panel" style={{ marginBottom: '1.25rem' }}>
-                    <div className="review-panel-title">👤 Passenger Personal Details & Eligibility</div>
-                    <div className="review-data-list">
-                      <div className="review-data-row">
-                        <span className="review-data-label">Full Name:</span>
-                        <span className="review-data-val font-semibold">{docModalApp.fullName || docModalApp.passengerName}</span>
-                      </div>
-                      <div className="review-data-row">
-                        <span className="review-data-label">DOB / Gender:</span>
-                        <span className="review-data-val">
-                          {docModalApp.dob ? formatDateIN(docModalApp.dob) : 'N/A'} ({docModalApp.gender || 'N/A'})
-                        </span>
-                      </div>
-                      <div className="review-data-row">
-                        <span className="review-data-label">Mobile / Email:</span>
-                        <span className="review-data-val">
-                          {docModalApp.mobileNumber || 'N/A'} • {docModalApp.email || docModalApp.passengerEmail}
-                        </span>
-                      </div>
-                      <div className="review-data-row">
-                        <span className="review-data-label">Residential Address:</span>
-                        <span className="review-data-val">
-                          {docModalApp.residentialAddress ? `${docModalApp.residentialAddress}, ${docModalApp.city} - ${docModalApp.pincode}` : 'N/A'}
-                        </span>
-                      </div>
-                      <div className="review-data-row">
-                        <span className="review-data-label">Passenger Category:</span>
-                        <span className="review-data-val font-semibold">{docModalApp.passengerCategory || 'GENERAL'}</span>
-                      </div>
-                      {docModalApp.institutionName && (
-                        <div className="review-data-row">
-                          <span className="review-data-label">School / College / Employer:</span>
-                          <span className="review-data-val">{docModalApp.institutionName}</span>
-                        </div>
-                      )}
-                      {(docModalApp.sourceStop || docModalApp.destinationStop) && (
-                        <div className="review-data-row">
-                          <span className="review-data-label">Transit Scope:</span>
-                          <span className="review-data-val">
-                            {docModalApp.sourceStop || 'Any'} ➔ {docModalApp.destinationStop || 'Any'}
-                          </span>
-                        </div>
-                      )}
-                      {docModalApp.emergencyContact && (
-                        <div className="review-data-row">
-                          <span className="review-data-label">Emergency Contact:</span>
-                          <span className="review-data-val">{docModalApp.emergencyContact}</span>
-                        </div>
-                      )}
+                  <div className="review-applicant-summary">
+                    <div>
+                      <strong>{docModalApp.fullName || docModalApp.passengerName}</strong>
+                      <span>
+                        {docModalApp.passengerCategory || 'GENERAL'} • {docModalApp.mobileNumber || docModalApp.passengerEmail || 'N/A'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="review-pass-summary">
+                    <div>
+                      <span>{t('requestedPass', 'Requested pass')}</span>
+                      <strong>{docModalApp.passCategoryName}</strong>
+                    </div>
+                    <div>
+                      <span>{t('validity', 'Validity')}</span>
+                      <strong>{formatValidity(docModalApp)}</strong>
                     </div>
                   </div>
 
                   {/* Document Review Section */}
-                  <h4>{t('attachedDocs', 'Submitted Documents')} ({docList.length})</h4>
+                  <div className="review-documents-heading">
+                    <div>
+                      <h4>{t('documentChecklist', 'Document checklist')}</h4>
+                    </div>
+                    <span className="text-muted">
+                      {docList.filter((doc) => doc.status === 'VERIFIED').length} / {docList.length} {t('verifiedLabel', 'verified')}
+                    </span>
+                  </div>
                   {docList.length === 0 ? (
                     <div className="empty-state" style={{ padding: '1rem' }}>
                       <p className="text-muted">No documents uploaded for this application.</p>
@@ -705,7 +746,7 @@ export function OfficerDashboard() {
                           <li key={doc.id} className="doc-item" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                               <div className="doc-meta">
-                                <span className="doc-icon">📄</span>
+                                <span className="doc-icon"></span>
                                 <div>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                     <strong>{doc.documentType || 'Supporting Document'}</strong>
@@ -725,30 +766,19 @@ export function OfficerDashboard() {
                                   className="btn btn-xs btn-outline"
                                   onClick={() => handleDownloadDoc(doc.id, doc.fileName)}
                                 >
-                                  ⬇️ {t('downloadPdf', 'Download')}
+                                  {t('preview', 'Preview')}
                                 </button>
                                 {isVerifier && (
-                                  <>
-                                    <button
-                                      type="button"
-                                      className="btn btn-xs btn-success"
-                                      onClick={() => handleVerifyIndividualDoc(doc.id)}
-                                      title="Mark document as verified"
-                                    >
-                                      ✓ Verify
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="btn btn-xs btn-danger"
-                                      onClick={() => {
-                                        setDocRejectPromptId(doc.id);
-                                        setDocRejectRemarks('');
-                                      }}
-                                      title="Reject this document and request replacement"
-                                    >
-                                      ✗ Reject
-                                    </button>
-                                  </>
+                                  <select
+                                    className="form-control form-control-sm review-doc-status"
+                                    value={doc.status || 'PENDING'}
+                                    onChange={(e) => handleDocumentStatusChange(doc, e.target.value)}
+                                    aria-label={`${t('documentStatus', 'Document status')}: ${doc.documentType || doc.fileName}`}
+                                  >
+                                    <option value="PENDING">{t('statusPendingShort', 'Pending')}</option>
+                                    <option value="VERIFIED">{t('statusVerifiedShort', 'Verified')}</option>
+                                    <option value="REJECTED">{t('statusRejectedShort', 'Rejected')}</option>
+                                  </select>
                                 )}
                               </div>
                             </div>
@@ -802,20 +832,46 @@ export function OfficerDashboard() {
               )}
             </div>
 
+            {docModalApp.status === 'PENDING' && isVerifier && (
+              <div className="review-decision">
+                <label htmlFor="review-remarks">{t('officerRemarks', 'Officer remarks')}</label>
+                <textarea
+                  id="review-remarks"
+                  className="form-control"
+                  rows={3}
+                  placeholder={t('reviewRemarksPlaceholder', 'Add a note for the applicant or the approval team...')}
+                  value={remarks}
+                  onChange={(e) => setRemarks(e.target.value)}
+                />
+              </div>
+            )}
+
             <div className="modal-footer" style={{ justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {docModalApp.status === 'PENDING' && isVerifier && (
-                  <button
-                    type="button"
-                    className="btn btn-info btn-sm"
-                    onClick={() => {
-                      const appToVerify = docModalApp;
-                      setDocModalApp(null);
-                      openActionModal(appToVerify, 'VERIFIED');
-                    }}
-                  >
-                    ✓ Complete Application Verification
-                  </button>
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-warning btn-sm"
+                      onClick={() => openReviewAction(docModalApp, 'REJECTED')}
+                    >
+                      {t('requestCorrection', 'Request correction')}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-info btn-sm"
+                      onClick={() => openReviewAction(docModalApp, 'VERIFIED')}
+                    >
+                      {t('verifySendForward', 'Verify & send forward')}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => openReviewAction(docModalApp, 'REJECTED')}
+                    >
+                      {t('rejectAtVerification', 'Reject at verification')}
+                    </button>
+                  </>
                 )}
                 {docModalApp.status === 'VERIFIED' && isApprover && (
                   <button

@@ -211,4 +211,62 @@ class PassCategoryServiceTest {
 
         assertThrows(RuntimeException.class, () -> passCategoryService.createPassCategory(req));
     }
+
+    @Test
+    void testUpdatePassCategory_DuplicateNameOnAnotherCategory_ThrowsException() {
+        PassCategoryRequest req = new PassCategoryRequest();
+        req.setName("Duplicate Name");
+        when(passCategoryRepository.findById(1L)).thenReturn(Optional.of(sampleCategory));
+        when(passCategoryRepository.existsByNameAndIdNot("Duplicate Name", 1L)).thenReturn(true);
+
+        assertThrows(RuntimeException.class, () -> passCategoryService.updatePassCategory(1L, req));
+        verify(passCategoryRepository, never()).save(any());
+    }
+
+    @Test
+    void testUpdatePassCategory_NotFound_ThrowsException() {
+        PassCategoryRequest req = new PassCategoryRequest();
+        req.setName("Non existent");
+        when(passCategoryRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> passCategoryService.updatePassCategory(999L, req));
+    }
+
+    @Test
+    void testDeletePassCategory_Success() {
+        when(passCategoryRepository.findById(1L)).thenReturn(Optional.of(sampleCategory));
+        doNothing().when(passCategoryRepository).delete(sampleCategory);
+
+        assertDoesNotThrow(() -> passCategoryService.deletePassCategory(1L));
+        verify(passCategoryRepository).delete(sampleCategory);
+    }
+
+    @Test
+    void testDeletePassCategory_NotFound_ThrowsException() {
+        when(passCategoryRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> passCategoryService.deletePassCategory(999L));
+        verify(passCategoryRepository, never()).delete(any());
+    }
+
+    @Test
+    void testCreatePassCategory_NullBaseFareAndFareType_DefaultsProperly() {
+        PassCategoryRequest request = new PassCategoryRequest();
+        request.setName("Boundary Pass");
+        request.setBaseFare(null);
+        request.setFareType(null);
+
+        when(passCategoryRepository.existsByName("Boundary Pass")).thenReturn(false);
+        when(passCategoryRepository.save(any(PassCategory.class))).thenAnswer(invocation -> {
+            PassCategory cat = invocation.getArgument(0);
+            cat.setId(50L);
+            return cat;
+        });
+
+        PassCategoryResponse response = passCategoryService.createPassCategory(request);
+
+        assertNotNull(response);
+        assertEquals(0.0, response.getBaseFare());
+        assertEquals("FIXED", response.getFareType());
+    }
 }

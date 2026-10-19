@@ -45,17 +45,39 @@ export function Navbar() {
     return norm.replace('_', ' ');
   }
 
+  function handleLogout() {
+    logout();
+    window.location.assign('/');
+  }
+
+  function NotificationIcon() {
+    return (
+      <svg className="navbar-notification-svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" />
+      </svg>
+    );
+  }
+
   return (
     <>
       <header className="navbar">
         <div className="navbar-container">
           <div className="navbar-brand">
-            <span className="brand-icon">🚌</span>
+            <span className="brand-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 16.5V6.8C5 5.25 6.25 4 7.8 4h8.4C17.75 4 19 5.25 19 6.8v9.7M4 16.5h16M7 19h2m6 0h2M7 8h10M8 12h2m4 0h2" /><circle cx="8" cy="16.5" r="1" /><circle cx="16" cy="16.5" r="1" /></svg></span>
             <div className="brand-text">
-              <span className="brand-title">{t('brandTitle', 'PMPML TransitEase')}</span>
-              <span className="brand-subtitle">{t('brandSubtitle', 'Pune Mahanagar Parivahan')}</span>
+              <span className="brand-title">TransitEase</span>
+              <span className="brand-subtitle">PMPML · {t('brandSubtitle', 'Pune Mahanagar Parivahan')}</span>
             </div>
           </div>
+
+          {!user && (
+            <nav className="public-navbar-links" aria-label="Public navigation">
+              <a href="/">Home</a>
+              <a href="#routes">Routes</a>
+              <a href="#passes">Passes</a>
+              <a href="#about">About PMPML</a>
+            </nav>
+          )}
 
           <div className="navbar-actions">
             {/* Language Selector Dropdown (English, Hindi, Marathi) */}
@@ -63,7 +85,7 @@ export function Navbar() {
               <label htmlFor="navbar-lang-select" className="visually-hidden">
                 {t('selectLanguage', 'Language')}
               </label>
-              <span className="lang-globe-icon" aria-hidden="true">🌐</span>
+              <span className="lang-globe-icon" aria-hidden="true"></span>
               <select
                 id="navbar-lang-select"
                 className="lang-dropdown-select"
@@ -76,6 +98,12 @@ export function Navbar() {
                 <option value="mr">मराठी (MR)</option>
               </select>
             </div>
+
+            {!user && (
+              <a className="btn btn-sm public-signin-btn" href="/signin">
+                {t('signIn', 'Sign In')}
+              </a>
+            )}
 
             {user && (
               <>
@@ -94,7 +122,7 @@ export function Navbar() {
                     aria-label={t('notifications', 'Notifications')}
                     title={t('notifications', 'Notifications')}
                   >
-                    <span className="bell-icon">🔔</span>
+                    <span className="bell-icon"><NotificationIcon /></span>
                     {unreadCount > 0 && (
                       <span className="notif-count-badge">
                         {unreadCount > 99 ? '99+' : unreadCount}
@@ -106,7 +134,7 @@ export function Navbar() {
                 <button
                   type="button"
                   className="btn btn-sm btn-outline btn-logout"
-                  onClick={logout}
+                  onClick={handleLogout}
                 >
                   {t('signOut', 'Sign Out')}
                 </button>
@@ -116,7 +144,7 @@ export function Navbar() {
         </div>
       </header>
 
-      {user && user.role === 'ROLE_PASSENGER' && (
+      {user && isPassenger(user.role) && (
         <NotificationModal
           isOpen={isNotifOpen}
           onClose={() => {

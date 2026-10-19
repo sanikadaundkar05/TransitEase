@@ -55,10 +55,10 @@ export function AuthPage() {
   }
 
   return (
-    <div className="auth-page">
+    <div className="auth-page" id="signin">
       <div className="auth-card">
         <div className="auth-brand">
-          <span className="auth-brand-icon">🚌</span>
+          <span className="auth-brand-icon"></span>
           <h1 className="auth-title">{t('brandTitle', 'PMPML TransitEase')}</h1>
           <p className="auth-subtitle">{t('tagline', 'Pune Mahanagar Parivahan Pass Portal')}</p>
         </div>
@@ -189,21 +189,21 @@ export function AuthPage() {
               className="demo-chip"
               onClick={() => handleQuickFill('admin@transitease.com', 'admin123')}
             >
-              🔑 Admin
+               Admin
             </button>
             <button
               type="button"
               className="demo-chip"
               onClick={() => handleQuickFill('verifier@transitease.com', 'verifier123')}
             >
-              🛡️ Verification Officer
+               Verification Officer
             </button>
             <button
               type="button"
               className="demo-chip"
               onClick={() => handleQuickFill('officer@transitease.com', 'officer123')}
             >
-              ✅ Approval Officer
+              Approval Officer
             </button>
           </div>
         </div>

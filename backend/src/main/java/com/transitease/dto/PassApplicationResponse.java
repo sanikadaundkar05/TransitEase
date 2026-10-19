@@ -8,6 +8,7 @@ public class PassApplicationResponse {
     private Long id;
     private Long passCategoryId;
     private String passCategoryName;
+    private Integer validityDays;
     private String passengerName;
     private String passengerEmail;
     private String documentUrl;
@@ -42,6 +43,7 @@ public class PassApplicationResponse {
         if (application.getPassCategory() != null) {
             resp.setPassCategoryId(application.getPassCategory().getId());
             resp.setPassCategoryName(application.getPassCategory().getName());
+            resp.setValidityDays(application.getPassCategory().getValidityDays());
         }
         if (application.getPassenger() != null) {
             resp.setPassengerName(application.getPassenger().getFullName());
@@ -103,6 +105,14 @@ public class PassApplicationResponse {
 
     public void setPassCategoryName(String passCategoryName) {
         this.passCategoryName = passCategoryName;
+    }
+
+    public Integer getValidityDays() {
+        return validityDays;
+    }
+
+    public void setValidityDays(Integer validityDays) {
+        this.validityDays = validityDays;
     }
 
     public String getPassengerName() {

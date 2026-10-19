@@ -3,6 +3,14 @@ import { api } from '../api/client';
 import { Alert } from './Alert';
 import { Loading } from './Loading';
 
+function NotificationIcon() {
+  return (
+    <svg className="notification-svg" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9ZM10 21h4" />
+    </svg>
+  );
+}
+
 export function NotificationModal({ isOpen, onClose, onCountChange }) {
   const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -86,7 +94,7 @@ export function NotificationModal({ isOpen, onClose, onCountChange }) {
               onClick={loadNotifications}
               disabled={loading}
             >
-              🔄 Refresh
+               Refresh
             </button>
             {notifications.some((n) => !n.isRead) && (
               <button
@@ -104,7 +112,7 @@ export function NotificationModal({ isOpen, onClose, onCountChange }) {
             <Loading message="Loading notifications..." />
           ) : notifications.length === 0 ? (
             <div className="empty-state">
-              <span className="empty-icon">🔔</span>
+              <span className="empty-icon"><NotificationIcon /></span>
               <p>No notifications yet.</p>
               <small className="text-muted">Updates about your applications and passes will appear here.</small>
             </div>

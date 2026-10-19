@@ -2,6 +2,7 @@ package com.transitease.service;
 
 import com.transitease.dto.DigitalPassResponse;
 import com.transitease.entity.*;
+import com.transitease.exception.ResourceNotFoundException;
 import com.transitease.repository.DigitalPassRepository;
 import com.transitease.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -206,5 +207,56 @@ class DigitalPassServiceTest {
         assertTrue(pdfBytes.length > 0);
         String pdfHeader = new String(pdfBytes, 0, 8);
         assertEquals("%PDF-1.4", pdfHeader);
+    }
+
+    @Test
+    void testGeneratePassForApplication_NullApplication_ThrowsIllegalArgumentException() {
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> digitalPassService.generatePassForApplication(null));
+        assertEquals("PassApplication cannot be null", ex.getMessage());
+    }
+
+    @Test
+    void testGeneratePassForApplication_NullValidityDays_DefaultsTo30Days() {
+        category.setValidityDays(null);
+        when(digitalPassRepository.findByApplication(application1)).thenReturn(Optional.empty());
+        when(digitalPassRepository.existsByPassNumber(any())).thenReturn(false);
+        when(digitalPassRepository.save(any(DigitalPass.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        DigitalPass generated = digitalPassService.generatePassForApplication(application1);
+
+        assertNotNull(generated);
+        assertEquals(LocalDate.now().plusDays(30), generated.getValidityEndDate());
+    }
+
+    @Test
+    void testGeneratePassForApplication_AnnualPassBoundary_Sets365Days() {
+        category.setValidityDays(365);
+        when(digitalPassRepository.findByApplication(application1)).thenReturn(Optional.empty());
+        when(digitalPassRepository.existsByPassNumber(any())).thenReturn(false);
+        when(digitalPassRepository.save(any(DigitalPass.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        DigitalPass generated = digitalPassService.generatePassForApplication(application1);
+
+        assertNotNull(generated);
+        assertEquals(LocalDate.now().plusDays(365), generated.getValidityEndDate());
+    }
+
+    @Test
+    void testGetPassById_NotFound_ThrowsResourceNotFoundException() {
+        when(digitalPassRepository.findById(999L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> digitalPassService.getPassById(999L));
+    }
+
+    @Test
+    void testGetAllPasses_ReturnsAllPasses() {
+        when(digitalPassRepository.findAll()).thenReturn(List.of(pass1));
+
+        List<DigitalPassResponse> allPasses = digitalPassService.getAllPasses();
+
+        assertNotNull(allPasses);
+        assertEquals(1, allPasses.size());
+        assertEquals("TE-PASS-20261013-ABCDEF12", allPasses.get(0).getPassNumber());
     }
 }

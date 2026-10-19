@@ -10,7 +10,7 @@ export function PassengerDashboard() {
   const { user } = useAuth();
   const { t, getLocalizedCategory } = useLanguage();
 
-  // Navigation tab state: 'passInfo' | 'apply' | 'passes' | 'applications' | 'routes' | 'history'
+  // Navigation tab state: 'overview' | 'apply' | 'passes' | 'applications' | 'history'
   const [activeTab, setActiveTab] = useState('passInfo');
   const [categoryFilter, setCategoryFilter] = useState('ALL'); // 'ALL' | 'GENERAL' | 'STUDENT' | 'SENIOR_CITIZEN' | 'CONCESSIONARY'
 
@@ -89,15 +89,16 @@ export function PassengerDashboard() {
       } else if (tab === 'passInfo' || tab === 'categories' || tab === 'apply') {
         const cats = await api.passCategories.getAll();
         setCategories(cats || []);
+        if (tab === 'passInfo' || tab === 'categories') {
+          const rList = await api.routes.getAll();
+          setRoutes(rList || []);
+        }
         if (cats && cats.length > 0 && !selectedCategoryId) {
           setSelectedCategoryId(cats[0].id.toString());
         }
       } else if (tab === 'applications') {
         const apps = await api.passApplications.getMyApplications();
         setApplications(apps || []);
-      } else if (tab === 'routes') {
-        const rList = await api.routes.getAll();
-        setRoutes(rList || []);
       } else if (tab === 'history') {
         const hist = await api.digitalPasses.getMyHistory();
         setHistory(hist || { applications: [], passes: [] });
@@ -430,7 +431,7 @@ export function PassengerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'passInfo' || activeTab === 'categories' ? 'active' : ''}`}
               onClick={() => setActiveTab('passInfo')}
             >
-              <span className="nav-icon">ℹ️</span> {t('tabPassInfo', 'Pass Information')}
+              <span className="nav-icon"></span> {t('tabOverview', 'Overview')}
             </button>
           </li>
           <li>
@@ -439,7 +440,7 @@ export function PassengerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'apply' ? 'active' : ''}`}
               onClick={() => setActiveTab('apply')}
             >
-              <span className="nav-icon">📝</span> {t('tabApply', 'Apply for Pass')}
+              <span className="nav-icon"></span> {t('tabApply', 'Apply for Pass')}
             </button>
           </li>
           <li>
@@ -448,7 +449,7 @@ export function PassengerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'passes' ? 'active' : ''}`}
               onClick={() => setActiveTab('passes')}
             >
-              <span className="nav-icon">💳</span> {t('tabMyPasses', 'My Digital Passes')}
+              <span className="nav-icon"></span> {t('tabMyPasses', 'My Digital Passes')}
             </button>
           </li>
           <li>
@@ -457,16 +458,7 @@ export function PassengerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'applications' ? 'active' : ''}`}
               onClick={() => setActiveTab('applications')}
             >
-              <span className="nav-icon">📂</span> {t('tabApplications', 'Applications & Tracking')}
-            </button>
-          </li>
-          <li>
-            <button
-              type="button"
-              className={`sidebar-nav-item ${activeTab === 'routes' ? 'active' : ''}`}
-              onClick={() => setActiveTab('routes')}
-            >
-              <span className="nav-icon">🗺️</span> {t('tabRoutes', 'Routes & Fares (₹)')}
+              <span className="nav-icon"></span> {t('tabApplications', 'Applications & Tracking')}
             </button>
           </li>
           <li>
@@ -475,7 +467,7 @@ export function PassengerDashboard() {
               className={`sidebar-nav-item ${activeTab === 'history' ? 'active' : ''}`}
               onClick={() => setActiveTab('history')}
             >
-              <span className="nav-icon">📜</span> {t('tabHistory', 'Pass History')}
+              <span className="nav-icon"></span> {t('tabHistory', 'Pass History')}
             </button>
           </li>
         </ul>
@@ -491,11 +483,11 @@ export function PassengerDashboard() {
           <section className="section-container">
             <div className="section-header">
               <div>
-                <h2>{t('tabPassInfo', 'PMPML Pass Information')}</h2>
+                <h2>{t('tabOverview', 'Overview')}</h2>
                 <p className="text-muted">
                   {t(
                     'applySubtitle',
-                    'Explore official Pune Mahanagar Parivahan Mahamandal Ltd. (PMPML) passes with verified pricing, eligibility, covered area, and required documents.'
+                    'View pass duration and fare at a glance, then explore routes and detailed pass information below.'
                   )}
                 </p>
               </div>
@@ -551,7 +543,7 @@ export function PassengerDashboard() {
               <Loading message={t('loading', 'Loading PMPML pass catalog...')} />
             ) : filteredCategories.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">🎫</span>
+                <span className="empty-icon"></span>
                 <h3>{t('noPassesFound', 'No pass categories found')}</h3>
                 <p>No passes currently match this category group.</p>
               </div>
@@ -559,8 +551,6 @@ export function PassengerDashboard() {
               <div className="pmpml-category-grid">
                 {filteredCategories.map((rawCat) => {
                   const cat = getLocalizedCategory(rawCat);
-                  const mandDocs = getMandatoryDocs(cat);
-                  const optDocs = getOptionalDocs(cat);
 
                   return (
                     <div key={rawCat.id} className="pmpml-category-card">
@@ -580,70 +570,20 @@ export function PassengerDashboard() {
                         <span className="cat-price-amount">{formatCategoryFare(rawCat)}</span>
                       </div>
 
-                      <div className="cat-covered-area">
-                        <span>📍</span>
-                        <div>
-                          <strong>{t('coveredArea', 'Covered Area')}:</strong> {cat.coveredArea}
-                        </div>
-                      </div>
-
-                      <p className="cat-desc">{cat.description}</p>
-
-                      {cat.eligibility && (
-                        <div className="cat-eligibility-block">
-                          <strong>{t('eligibility', 'Eligibility Criteria')}:</strong>
-                          <span>{cat.eligibility}</span>
-                        </div>
-                      )}
-
-                      {cat.discountDetails && (
-                        <div className="cat-discount-block">
-                          <strong>{t('concessionDetails', 'Discount / Waiver')}:</strong>
-                          <span>{cat.discountDetails}</span>
-                        </div>
-                      )}
-
-                      <div className="cat-docs-checklist-preview">
-                        <div className="cat-docs-title">
-                          📋 {t('requiredDocuments', 'Required Documents')}:
-                        </div>
-                        {mandDocs.length === 0 && optDocs.length === 0 ? (
-                          <div className="doc-item-preview none">
-                            <span>✓</span>
-                            <span>{t('noDocsRequired', 'No documents required (Onboard check only)')}</span>
-                          </div>
-                        ) : (
-                          <>
-                            {mandDocs.map((doc, idx) => (
-                              <div key={idx} className="doc-item-preview mandatory">
-                                <span className="doc-badge-chip req">* {t('docRequired', 'Required')}</span>
-                                <span>{doc}</span>
-                              </div>
-                            ))}
-                            {optDocs.map((doc, idx) => (
-                              <div key={idx} className="doc-item-preview optional">
-                                <span className="doc-badge-chip opt">{t('docOptional', 'Optional')}</span>
-                                <span>{doc}</span>
-                              </div>
-                            ))}
-                          </>
-                        )}
-                      </div>
-
                       <div className="cat-card-actions">
                         <button
                           type="button"
                           className="btn btn-outline"
                           onClick={() => setDetailsModalCat(rawCat)}
                         >
-                          🔍 {t('viewDetails', 'View Details')}
+                           {t('viewDetails', 'View Details')}
                         </button>
                         <button
                           type="button"
                           className="btn btn-primary"
                           onClick={() => handleSelectAndApply(rawCat.id)}
                         >
-                          📝 {t('applyNow', 'Apply Now')}
+                           {t('applyNow', 'Apply Now')}
                         </button>
                       </div>
                     </div>
@@ -651,6 +591,60 @@ export function PassengerDashboard() {
                 })}
               </div>
             )}
+
+            <div className="overview-routes-section">
+              <div className="section-header">
+                <div>
+                  <h3>{t('routesTitle', 'PMPML Bus Routes & Fares (₹)')}</h3>
+                  <p className="text-muted">
+                    {t(
+                      'routesSubtitle',
+                      'Explore major city and suburban transit lines, stages, and single journey passenger fares.'
+                    )}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline"
+                  onClick={() => loadTabInitialData('passInfo')}
+                >
+                  {t('refresh', 'Refresh')}
+                </button>
+              </div>
+
+              {loading ? (
+                <Loading message={t('loading', 'Loading routes...')} />
+              ) : routes.length === 0 ? (
+                <div className="empty-state">
+                  <span className="empty-icon"></span>
+                  <p>No transit routes listed currently.</p>
+                </div>
+              ) : (
+                <div className="route-grid">
+                  {routes.map((rt) => (
+                    <div key={rt.id} className="route-card">
+                      <div className="route-card-header">
+                        <span className="route-badge">{rt.routeNumber}</span>
+                        <span className="route-fare">{formatINR(rt.fare)}</span>
+                      </div>
+                      <div className="route-endpoints">
+                        <span className="origin">{rt.source || rt.origin}</span>
+                        <span className="arrow">➔</span>
+                        <span className="destination">{rt.destination}</span>
+                      </div>
+                      {rt.stops && (
+                        <div className="route-stops">
+                          <small className="text-muted">{t('intermediateStops', 'Intermediate Stops:')}</small>
+                          <p className="stops-text">
+                            {Array.isArray(rt.stops) ? rt.stops.join(' • ') : rt.stops}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
         )}
 
@@ -952,7 +946,7 @@ export function PassengerDashboard() {
                           </p>
 
                           <div className="cat-covered-area" style={{ margin: '0.4rem 0' }}>
-                            <span>📍</span>
+                            <span></span>
                             <div>
                               <strong>{t('coveredArea', 'Covered Area')}:</strong> {loc.coveredArea}
                             </div>
@@ -1055,7 +1049,7 @@ export function PassengerDashboard() {
                                 {!file ? (
                                   <div className="doc-card-dropzone">
                                     <label htmlFor={`file-input-${idx}`} className="doc-upload-btn-label">
-                                      📎 {t('uploadCardPrompt', 'Attach document file')}
+                                       {t('uploadCardPrompt', 'Attach document file')}
                                     </label>
                                     <input
                                       id={`file-input-${idx}`}
@@ -1069,7 +1063,7 @@ export function PassengerDashboard() {
                                 ) : (
                                   <div className="file-selected-box">
                                     <div className="file-selected-info">
-                                      <span className="file-selected-icon">📄</span>
+                                      <span className="file-selected-icon"></span>
                                       <div className="file-name-size">
                                         <span className="file-name-text" title={file.name}>
                                           {file.name}
@@ -1087,7 +1081,7 @@ export function PassengerDashboard() {
                                         className="btn btn-xs btn-outline"
                                         style={{ cursor: 'pointer', margin: 0 }}
                                       >
-                                        🔄 {t('replaceDocBtn', 'Replace')}
+                                         {t('replaceDocBtn', 'Replace')}
                                       </label>
                                       <input
                                         id={`file-input-replace-${idx}`}
@@ -1126,7 +1120,7 @@ export function PassengerDashboard() {
                                 {!file ? (
                                   <div className="doc-card-dropzone">
                                     <label htmlFor={`file-input-opt-${idx}`} className="doc-upload-btn-label">
-                                      📎 {t('uploadCardPrompt', 'Attach document file')}
+                                       {t('uploadCardPrompt', 'Attach document file')}
                                     </label>
                                     <input
                                       id={`file-input-opt-${idx}`}
@@ -1140,7 +1134,7 @@ export function PassengerDashboard() {
                                 ) : (
                                   <div className="file-selected-box">
                                     <div className="file-selected-info">
-                                      <span className="file-selected-icon">📄</span>
+                                      <span className="file-selected-icon"></span>
                                       <div className="file-name-size">
                                         <span className="file-name-text" title={file.name}>
                                           {file.name}
@@ -1158,7 +1152,7 @@ export function PassengerDashboard() {
                                         className="btn btn-xs btn-outline"
                                         style={{ cursor: 'pointer', margin: 0 }}
                                       >
-                                        🔄 {t('replaceDocBtn', 'Replace')}
+                                         {t('replaceDocBtn', 'Replace')}
                                       </label>
                                       <input
                                         id={`file-input-replace-opt-${idx}`}
@@ -1200,7 +1194,7 @@ export function PassengerDashboard() {
                     <div className="review-summary-grid">
                       {/* Panel 1: Passenger Personal Details */}
                       <div className="review-panel">
-                        <div className="review-panel-title">👤 Passenger Information</div>
+                        <div className="review-panel-title"> Passenger Information</div>
                         <div className="review-data-list">
                           <div className="review-data-row">
                             <span className="review-data-label">Name:</span>
@@ -1249,7 +1243,7 @@ export function PassengerDashboard() {
 
                       {/* Panel 2: Pass Details */}
                       <div className="review-panel">
-                        <div className="review-panel-title">🎫 Selected Pass Details</div>
+                        <div className="review-panel-title"> Selected Pass Details</div>
                         {selectedCategory ? (
                           <div className="review-data-list">
                             <div className="review-data-row">
@@ -1278,7 +1272,7 @@ export function PassengerDashboard() {
 
                       {/* Panel 3: Documents Checklist Status */}
                       <div className="review-panel">
-                        <div className="review-panel-title">📄 Document Attachments Status</div>
+                        <div className="review-panel-title"> Document Attachments Status</div>
                         {currentMandatoryDocs.length === 0 && currentOptionalDocs.length === 0 ? (
                           <p className="text-success text-sm">✓ No documents required for this pass.</p>
                         ) : (
@@ -1357,7 +1351,7 @@ export function PassengerDashboard() {
               <Loading message={t('loading', 'Loading digital passes...')} />
             ) : passes.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">🎫</span>
+                <span className="empty-icon"></span>
                 <h3>{t('noPassesFound', 'No digital passes found')}</h3>
                 <p>{t('noPassesDesc', "You don't have any approved digital passes yet.")}</p>
                 <button
@@ -1406,7 +1400,7 @@ export function PassengerDashboard() {
                         className="btn btn-sm btn-primary"
                         onClick={() => handleDownloadPdf(pass.id, pass.passNumber)}
                       >
-                        📥 {t('downloadPdf', 'Download PDF')}
+                         {t('downloadPdf', 'Download PDF')}
                       </button>
                       <button
                         type="button"
@@ -1416,7 +1410,7 @@ export function PassengerDashboard() {
                       >
                         {renewingPassId === pass.id
                           ? t('renewSubmitting', 'Submitting...')
-                          : `🔄 ${t('renewPass', 'Renew Pass')}`}
+                          : ` ${t('renewPass', 'Renew Pass')}`}
                       </button>
                     </div>
                   </div>
@@ -1441,7 +1435,7 @@ export function PassengerDashboard() {
                 className="btn btn-sm btn-outline"
                 onClick={() => loadTabInitialData('applications')}
               >
-                🔄 {t('refresh', 'Refresh')}
+                 {t('refresh', 'Refresh')}
               </button>
             </div>
 
@@ -1449,7 +1443,7 @@ export function PassengerDashboard() {
               <Loading message={t('loading', 'Loading applications...')} />
             ) : applications.length === 0 ? (
               <div className="empty-state">
-                <span className="empty-icon">📋</span>
+                <span className="empty-icon"></span>
                 <h3>{t('noApplicationsFound', 'No applications yet')}</h3>
                 <p>You have not submitted any pass applications.</p>
                 <button
@@ -1510,7 +1504,7 @@ export function PassengerDashboard() {
                               className={`btn btn-xs ${isRejected ? 'btn-danger' : 'btn-outline'}`}
                               onClick={() => openDocModal(app)}
                             >
-                              📎 {isRejected ? t('replaceDocBtn', 'Replace Doc') : t('documents', 'Docs')}
+                               {isRejected ? t('replaceDocBtn', 'Replace Doc') : t('documents', 'Docs')}
                             </button>
                           </td>
                         </tr>
@@ -1518,63 +1512,6 @@ export function PassengerDashboard() {
                     })}
                   </tbody>
                 </table>
-              </div>
-            )}
-          </section>
-        )}
-
-        {/* --- TAB: ROUTES & FARES --- */}
-        {activeTab === 'routes' && (
-          <section className="section-container">
-            <div className="section-header">
-              <div>
-                <h2>{t('routesTitle', 'PMPML Bus Routes & Fares (₹)')}</h2>
-                <p className="text-muted">
-                  {t(
-                    'routesSubtitle',
-                    'Explore major city and suburban transit lines, stages, and single journey passenger fares.'
-                  )}
-                </p>
-              </div>
-              <button
-                type="button"
-                className="btn btn-sm btn-outline"
-                onClick={() => loadTabInitialData('routes')}
-              >
-                🔄 {t('refresh', 'Refresh')}
-              </button>
-            </div>
-
-            {loading ? (
-              <Loading message={t('loading', 'Loading routes...')} />
-            ) : routes.length === 0 ? (
-              <div className="empty-state">
-                <span className="empty-icon">🚌</span>
-                <p>No transit routes listed currently.</p>
-              </div>
-            ) : (
-              <div className="route-grid">
-                {routes.map((rt) => (
-                  <div key={rt.id} className="route-card">
-                    <div className="route-card-header">
-                      <span className="route-badge">{rt.routeNumber}</span>
-                      <span className="route-fare">{formatINR(rt.fare)}</span>
-                    </div>
-                    <div className="route-endpoints">
-                      <span className="origin">{rt.source || rt.origin}</span>
-                      <span className="arrow">➔</span>
-                      <span className="destination">{rt.destination}</span>
-                    </div>
-                    {rt.stops && (
-                      <div className="route-stops">
-                        <small className="text-muted">{t('intermediateStops', 'Intermediate Stops:')}</small>
-                        <p className="stops-text">
-                          {Array.isArray(rt.stops) ? rt.stops.join(' • ') : rt.stops}
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                ))}
               </div>
             )}
           </section>
@@ -1724,7 +1661,7 @@ export function PassengerDashboard() {
 
                   <div className="details-section-box">
                     <h5 className="details-section-title">
-                      📍 {t('coveredArea', 'Covered Area / Route Scope')}
+                       {t('coveredArea', 'Covered Area / Route Scope')}
                     </h5>
                     <p className="details-section-desc">{loc.coveredArea}</p>
                   </div>
@@ -1739,7 +1676,7 @@ export function PassengerDashboard() {
                   {loc.eligibility && (
                     <div className="details-section-box">
                       <h5 className="details-section-title">
-                        👥 {t('eligibility', 'Eligibility Criteria')}
+                         {t('eligibility', 'Eligibility Criteria')}
                       </h5>
                       <p className="details-section-desc">{loc.eligibility}</p>
                     </div>
@@ -1748,7 +1685,7 @@ export function PassengerDashboard() {
                   {loc.discountDetails && (
                     <div className="details-section-box">
                       <h5 className="details-section-title">
-                        🏷️ {t('concessionDetails', 'Concession / Discount Details')}
+                         {t('concessionDetails', 'Concession / Discount Details')}
                       </h5>
                       <p className="details-section-desc">{loc.discountDetails}</p>
                     </div>
@@ -1756,7 +1693,7 @@ export function PassengerDashboard() {
 
                   <div className="details-section-box">
                     <h5 className="details-section-title">
-                      📄 {t('requiredDocuments', 'Required Documents Checklist')}
+                       {t('requiredDocuments', 'Required Documents Checklist')}
                     </h5>
                     {mandDocs.length === 0 && optDocs.length === 0 ? (
                       <p className="text-success" style={{ fontSize: '0.875rem', margin: 0 }}>
@@ -1878,7 +1815,7 @@ export function PassengerDashboard() {
                         <li key={doc.id} className="doc-item" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <div className="doc-meta">
-                              <span className="doc-icon">📄</span>
+                              <span className="doc-icon"></span>
                               <div>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                   <strong>{doc.documentType || 'Supporting Document'}</strong>
@@ -1951,7 +1888,7 @@ export function PassengerDashboard() {
                         className="btn btn-sm btn-primary"
                         disabled={!uploadModalFile || !uploadModalDocType.trim() || docModalLoading}
                       >
-                        📤 {t('uploadDocumentLabel', 'Upload / Replace Document')}
+                         {t('uploadDocumentLabel', 'Upload / Replace Document')}
                       </button>
                     </div>
                   </form>

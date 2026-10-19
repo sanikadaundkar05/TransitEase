@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -427,5 +428,78 @@ class PassApplicationServiceTest {
         assertNotNull(resp);
         assertEquals("John Passenger", resp.getFullName());
         assertEquals("passenger@example.com", resp.getEmail());
+    }
+
+    @Test
+    void testTransition_VerifiedToPending_ThrowsIllegalStateException() {
+        PassApplication app = new PassApplication();
+        app.setId(102L);
+        app.setStatus(ApplicationStatus.VERIFIED);
+        when(applicationRepository.findById(102L)).thenReturn(Optional.of(app));
+
+        IllegalStateException ex = assertThrows(IllegalStateException.class,
+                () -> applicationService.updateApplicationStatus(102L, ApplicationStatus.PENDING, "Revert to pending"));
+        assertTrue(ex.getMessage().contains("Invalid status transition from VERIFIED to PENDING"));
+        verify(applicationRepository, never()).save(any());
+    }
+
+    @Test
+    void testRenewPass_OtherPassenger_ThrowsAccessDeniedException() {
+        org.springframework.security.core.userdetails.User userDetails =
+                new org.springframework.security.core.userdetails.User("passenger@example.com", "pass",
+                        java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_PASSENGER")));
+        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(
+                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
+        );
+
+        when(userRepository.findByEmail("passenger@example.com")).thenReturn(Optional.of(passenger));
+
+        User otherPassenger = new User();
+        otherPassenger.setId(99L);
+        otherPassenger.setEmail("other@example.com");
+        otherPassenger.setRole(Role.PASSENGER);
+
+        com.transitease.entity.DigitalPass passOfOther = new com.transitease.entity.DigitalPass();
+        passOfOther.setId(300L);
+        passOfOther.setPassenger(otherPassenger);
+
+        when(digitalPassRepository.findById(300L)).thenReturn(Optional.of(passOfOther));
+
+        assertThrows(org.springframework.security.access.AccessDeniedException.class,
+                () -> applicationService.renewPass(300L, new com.transitease.dto.PassRenewalRequest(1L, "doc.pdf")));
+    }
+
+    @Test
+    void testRenewPass_AlreadyPendingRenewal_ThrowsIllegalStateException() {
+        org.springframework.security.core.userdetails.User userDetails =
+                new org.springframework.security.core.userdetails.User("passenger@example.com", "pass",
+                        java.util.Collections.singletonList(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_PASSENGER")));
+        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(
+                new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities())
+        );
+
+        when(userRepository.findByEmail("passenger@example.com")).thenReturn(Optional.of(passenger));
+
+        com.transitease.entity.DigitalPass pass = new com.transitease.entity.DigitalPass();
+        pass.setId(200L);
+        pass.setPassenger(passenger);
+
+        when(digitalPassRepository.findById(200L)).thenReturn(Optional.of(pass));
+        when(applicationRepository.existsByRenewedPassIdAndStatusIn(eq(200L), any())).thenReturn(true);
+
+        IllegalStateException ex = assertThrows(IllegalStateException.class,
+                () -> applicationService.renewPass(200L, new com.transitease.dto.PassRenewalRequest(1L, "doc.pdf")));
+        assertTrue(ex.getMessage().contains("already pending or under review"));
+    }
+
+    @Test
+    void testGetAllApplications_ReturnsMappedList() {
+        when(applicationRepository.findAll()).thenReturn(List.of(pendingApplication));
+
+        List<PassApplicationResponse> all = applicationService.getAllApplications();
+
+        assertNotNull(all);
+        assertEquals(1, all.size());
+        assertEquals(pendingApplication.getId(), all.get(0).getId());
     }
 }
